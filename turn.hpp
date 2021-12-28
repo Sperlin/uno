@@ -1,6 +1,5 @@
 #pragma once
 #include "player.hpp"
-#include "Effect.cpp"
 
 class Turn {
     private:

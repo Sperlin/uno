@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "card.cpp"
+#include "card.hpp"
 
 class CardStack{
     private:
@@ -12,5 +12,5 @@ class CardStack{
         bool isEmpty();
         void setCardStack();
         void setCardStack(std::vector<Card>);
-        void CardStack::addFourCardsToStack(int cardsCount, int counter, Effects effect);
+        void addFourCardsToStack(int cardsCount, int counter, Effects effect);
 };
