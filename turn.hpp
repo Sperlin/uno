@@ -4,8 +4,15 @@
 class Turn {
     private:
         Player current_player;
-        PlayerCards played_cards;
         Effects effect_from_previous_player;
+        Card top_card;
     public:
-        void turn(Player current_player);
+        void turn();
+        Player &getCurrentPlayer();
+        Effects &getEffectFromPreviousPlayer();
+        Card &getTopCard();
+        void setCurrentPlayer(Player player);
+        void setEffectFromPreviousPlayer(Effects effect);
+        void setTopCard(Card card);
+        Turn();
 };

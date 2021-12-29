@@ -82,3 +82,16 @@ void CardStack::setCardStack(std::vector<Card>)
 {
 
 }
+
+void CardStack::printCards() {
+    std::cout << this->cards.size() << std::endl;
+    for (Card card : this->cards) {
+        std::cout << card.getId() << std::endl;
+    }
+}
+
+CardStack::CardStack() {
+    std::vector<Card> cards;
+    this->cards = cards;
+    setCardStack();
+}

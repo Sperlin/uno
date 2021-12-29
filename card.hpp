@@ -17,4 +17,5 @@ class Card
         int &getId();
         Colors &getColor();
         Effects &getEffect();
+        Card();
 };

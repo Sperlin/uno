@@ -22,6 +22,8 @@
         return this -> effect;
     }
 
+    Card::Card(){}
+
     Card::Card(int Value, int Id, Colors Color, Effects Effect){
         value = Value;
         id = Id;

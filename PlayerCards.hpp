@@ -8,4 +8,6 @@ class PlayerCards {
     public:
         void add_card(Card card_from_stack);
         void get_card(std::string choice);
+        PlayerCards();
+        void print_cards();
 };

@@ -1,5 +1,5 @@
-main: Effect.o Colors.o card.o CardStack.o PlayerCards.o player.o game.o main.o
-	g++ -o main main.o game.o card.o CardStack.o Colors.o Effect.o player.o PlayerCards.o
+main: Effect.o Colors.o card.o CardStack.o PlayerCards.o player.o turn.o game.o main.o
+	g++ -o main main.o game.o turn.o card.o CardStack.o Colors.o Effect.o player.o PlayerCards.o
 
 Effect.o: Effect.cpp
 	g++ -c Effect.cpp
@@ -19,6 +19,9 @@ PlayerCards.o: PlayerCards.cpp PlayerCards.hpp
 player.o: player.cpp player.hpp
 	g++ -c player.cpp
 
+turn.o: turn.cpp turn.hpp
+	g++ -c turn.cpp
+
 game.o: game.cpp game.hpp
 	g++ -c game.cpp
 
@@ -26,7 +29,7 @@ main.o: main.cpp
 	g++ -c main.cpp
 
 clean:
-	@echo %PATH%
+	rm *.o main
 
 
 
