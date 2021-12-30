@@ -7,7 +7,7 @@ PlayerCards::PlayerCards() {
     this->cards = cards;
 }
 
-void PlayerCards::add_card(Card card_from_stack) {
+void PlayerCards::add_card(Card &card_from_stack) {
     cards.push_back(card_from_stack);
 }
 
@@ -16,4 +16,8 @@ void PlayerCards::print_cards() {
     for (Card card : this->cards) {
         std::cout << card.getId() << std::endl;
     }
+}
+
+std::vector<Card> &PlayerCards::getCards() {
+    return cards;
 }

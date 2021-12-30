@@ -11,8 +11,9 @@ class Turn {
         Player &getCurrentPlayer();
         Effects &getEffectFromPreviousPlayer();
         Card &getTopCard();
-        void setCurrentPlayer(Player player);
-        void setEffectFromPreviousPlayer(Effects effect);
-        void setTopCard(Card card);
+        void setCurrentPlayer(Player &player);
+        void setEffectFromPreviousPlayer(Effects &effect);
+        void setTopCard(Card &card);
+        Turn(Player current_player, Effects effect_from_previous_player, Card top_card);
         Turn();
 };
