@@ -15,7 +15,6 @@ int main() {
         {
             Game game = Game();
             game.startGame();
-            //delete(&game);
             menu = false;
         }
         break;

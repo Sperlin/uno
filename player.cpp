@@ -4,17 +4,21 @@ Player::Player() {}
 
 RealPlayer::RealPlayer() {
     PlayerCards player_cards = PlayerCards();
+    player_value = 1;
 }
 
 Bot::Bot() {
     PlayerCards player_cards = PlayerCards();
+    player_value = 2;
 }
 
 bool Player::play(std::string choice) {
+    std::cout << "Mistakes were made" << std::endl;
     return true;
 };
 
-bool RealPlayer::play(std::string choixe) {
+bool RealPlayer::play(std::string choice) {
+    std::cout << "Hopefully you can read this" << std::endl;
     return true;
 }
 
@@ -32,3 +36,8 @@ void Player::draw(CardStack &card_stack, int amount) {
 PlayerCards &Player::getPlayerCards() {
     return player_cards;
 }
+
+int &Player::getPlayerValue() {
+    return player_value;
+}
+

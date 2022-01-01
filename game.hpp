@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <regex>
 #include "turn.hpp"
 #include "CardStack.hpp"
 #include "PlayedCards.hpp"
@@ -7,7 +8,7 @@
 class Game {
     private:
         Turn current_turn;
-        std::vector<Player> players;
+        std::vector<Player*> players;
         Effects played_effect;
         CardStack card_stack;
         PlayedCards played_cards;
