@@ -17,6 +17,7 @@ class Card
         int &getValue();
         int &getId();
         Colors &getColor();
+        void setColor(Colors color);
         Effects &getEffect();
         bool &getPlayable();
         void setPlayable(bool status);

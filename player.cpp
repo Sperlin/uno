@@ -38,7 +38,7 @@ Card *RealPlayer::play(std::string choice, Card &top_card) {
     //std::cout << "Hopefully you can read this" << std::endl;
     std::vector<std::string> input_elements;
     split(choice, ' ', input_elements);
-    possible_cards(top_card);
+    //possible_cards(top_card);
     Colors color_of_input_card = getColorOfInputCard(input_elements[0]);
     int value_of_input_card = getValueOfInputCard(input_elements[1]);
     int index_of_card = 0;
@@ -59,7 +59,7 @@ Card *RealPlayer::play(std::string choice, Card &top_card) {
 }
 
 Card *Bot::play(std::string choice, Card &top_card) {
-    possible_cards(top_card);
+    //possible_cards(top_card);
     int index_of_card = 0;
     Card *played_card = nullptr;
     for (Card &card : this->player_cards.getCards()) {
@@ -104,7 +104,8 @@ int &Player::getPlayerValue() {
     return player_value;
 }
 
-void Player::possible_cards(Card &top_card) {
+int Player::possible_cards(Card &top_card) {
+    int num_of_playable_cards = 0;
     for (Card &card : player_cards.getCards()) {
         Colors color_card_hand = card.getColor();
         int value_card_hand = card.getValue();
@@ -112,9 +113,11 @@ void Player::possible_cards(Card &top_card) {
         int value_top_card = top_card.getValue();
         if (color_card_hand == Colors::Black || color_card_hand == color_top_card || value_card_hand == value_top_card) {
             card.setPlayable(true);
+            num_of_playable_cards++;
             //std::cout << "Possible: " << card.getValue() << card.getPlayable() << std::endl;
         }
     }
+    return num_of_playable_cards;
 }
 
 Colors Player::getColorOfInputCard(std::string color_string) {

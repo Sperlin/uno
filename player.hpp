@@ -13,7 +13,7 @@ class Player {
         PlayerCards player_cards;
         int player_value;
     public:
-        void possible_cards(Card &top_card);
+        int possible_cards(Card &top_card);
         void draw(CardStack &card_stack, int amount);
         Card virtual *play(std::string choice, Card &top_card);
         void erase_played_card(Card *card_to_erase);

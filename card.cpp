@@ -14,6 +14,10 @@
     {
         return this -> color;
     }
+
+    void Card::setColor(Colors color) {
+        this->color = color;
+    }
     //Normal card has no effects
     //Create new card in playerCards class:
     //  Try parsing the card from string to int, if doesn't work: create special card  

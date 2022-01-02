@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <regex>
+#include <unistd.h>
 #include "turn.hpp"
 #include "CardStack.hpp"
 #include "PlayedCards.hpp"
@@ -15,8 +16,7 @@ class Game {
     public:
         void startGame();
         void runGame();
-        //BEI NEXTTURN UNBEDINGT PLAYABLE DER KARTEN DES SPIELERS / DER SPIELER AUF FALSE SETZEN
-        void nextTurn(Effects &played_effect);
+        bool nextTurn(Effects &played_effect);
         Player* nextPlayer();
         Player* nextPlayerReverse();
         void win(Turn &current_turn);

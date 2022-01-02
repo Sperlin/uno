@@ -33,6 +33,19 @@ void Game::runGame() {
         printTopCard();
         printCardsInHand();
         Card top_card = this->current_turn.getTopCard();
+        int num_of_cards_to_play;
+        num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card);
+        if (num_of_cards_to_play == 0) {
+            this->current_turn.getCurrentPlayer()->draw(this->card_stack, 1);
+            std::cout << "You drew a card!" << std::endl;
+            printCardsInHand();
+            num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card);
+            if (num_of_cards_to_play == 0) {
+                Effects no_effect = Effects::noEffect;
+                nextTurn(no_effect);
+                continue;
+            }
+        }
         int value_of_current_player = this->current_turn.getCurrentPlayer()->getPlayerValue();
         std::string input_from_player;
         Card *card_to_play;
@@ -42,13 +55,20 @@ void Game::runGame() {
                 input_from_player = getInput();
                 card_to_play = this->current_turn.getCurrentPlayer()->play(input_from_player, top_card);
             } while (card_to_play == nullptr);
+            if (card_to_play->getColor() == Colors::Black) { //FOR TESTING PURPOSES: damit das spiel beendet werden kann wenn eine wild karte gelegt wird
+                card_to_play->setColor(Colors::Blue);
+            }
             played_cards.save(*card_to_play);
             top_card = played_cards.top();
             this->current_turn.getCurrentPlayer()->erase_played_card(card_to_play);
             printCardsInHand(); //FOR TESTING PURPOSES
         } else {
             std::cout << "Bots turn" << std::endl;
+            sleep(3);
             card_to_play = this->current_turn.getCurrentPlayer()->play("test", top_card);
+            if (card_to_play->getColor() == Colors::Black) { //FOR TESTING PURPOSES: damit das spiel beendet werden kann wenn eine wild karte gelegt wird
+                card_to_play->setColor(Colors::Blue);
+            }
             played_cards.save(*card_to_play);
             top_card = played_cards.top();
             this->current_turn.getCurrentPlayer()->erase_played_card(card_to_play);
@@ -56,21 +76,29 @@ void Game::runGame() {
             printCardsInHand(); //FOR TESTING PURPOSES
         }
         Effects effect_for_next_turn = top_card.getEffect();
-        nextTurn(effect_for_next_turn);
+        game_running = nextTurn(effect_for_next_turn);
     }
+    win(current_turn);
 }
 
-void Game::nextTurn(Effects &played_effect) {
-    //next player, set playable on all cards false
-    Player* next_player = nextPlayer();
-    next_player->getPlayerCards().setAllPlayable();
-    //get top card
-    Card top_card = this->played_cards.top();
-    //get played effect
-    Effects effect_for_next_turn = played_effect;
-    //create and set new Turn
-    Turn next_turn = Turn(next_player, effect_for_next_turn, top_card);
-    this->current_turn = next_turn;
+bool Game::nextTurn(Effects &played_effect) {
+    //check if current player has won
+    Player* current_player = this->current_turn.getCurrentPlayer();
+    if (current_player->getPlayerCards().getCards().size() == 0) {
+        return false;
+    } else {
+        //next player, set playable on all cards false
+        Player* next_player = nextPlayer();
+        next_player->getPlayerCards().setAllPlayable();
+        //get top card
+        Card top_card = this->played_cards.top();
+        //get played effect
+        Effects effect_for_next_turn = played_effect;
+        //create and set new Turn
+        Turn next_turn = Turn(next_player, effect_for_next_turn, top_card);
+        this->current_turn = next_turn;
+        return true;
+    }
 }
 
 Player* Game::nextPlayer() {
@@ -91,6 +119,11 @@ Player* Game::nextPlayerReverse() {
     } else {
         return players[current_player_value - 1];
     }
+}
+
+void Game::win(Turn &current_turn) {
+    Player* winner = current_turn.getCurrentPlayer();
+    std::cout << "Player " << winner->getPlayerValue() << " has won the Game!" << std::endl;
 }
 
 void Game::printTopCard() {
