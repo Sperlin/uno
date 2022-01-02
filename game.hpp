@@ -17,6 +17,8 @@ class Game {
         void runGame();
         //BEI NEXTTURN UNBEDINGT PLAYABLE DER KARTEN DES SPIELERS / DER SPIELER AUF FALSE SETZEN
         void nextTurn(Effects &played_effect);
+        Player* nextPlayer();
+        Player* nextPlayerReverse();
         void win(Turn &current_turn);
         Game();
         void printCard(Card &card);

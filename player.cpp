@@ -17,14 +17,16 @@ void split(const std::string& s, char c, std::vector<std::string>& v) {
 
 Player::Player() {}
 
-RealPlayer::RealPlayer() {
+Player::Player(int value) {}
+
+RealPlayer::RealPlayer(int value) {
     PlayerCards player_cards = PlayerCards();
-    player_value = 1;
+    player_value = value;
 }
 
-Bot::Bot() {
+Bot::Bot(int value) {
     PlayerCards player_cards = PlayerCards();
-    player_value = 2;
+    player_value = value;
 }
 
 Card *Player::play(std::string choice, Card &top_card) {
@@ -33,21 +35,20 @@ Card *Player::play(std::string choice, Card &top_card) {
 };
 
 Card *RealPlayer::play(std::string choice, Card &top_card) {
-    std::cout << "Hopefully you can read this" << std::endl;
+    //std::cout << "Hopefully you can read this" << std::endl;
     std::vector<std::string> input_elements;
     split(choice, ' ', input_elements);
     possible_cards(top_card);
-    this->player_cards.getCards();
     Colors color_of_input_card = getColorOfInputCard(input_elements[0]);
     int value_of_input_card = getValueOfInputCard(input_elements[1]);
     int index_of_card = 0;
     Card *played_card = nullptr;
     for (Card &card : this->player_cards.getCards()) {
         if (color_of_input_card == card.getColor() && value_of_input_card == card.getValue()) {
-            std::cout << card.getPlayable() << std::endl;
+            //std::cout << card.getPlayable() << std::endl;
             if (card.getPlayable()) {
-                this->player_cards.getCards().erase(this->player_cards.getCards().begin() + index_of_card);
                 played_card = &card;
+                //std::cout << played_card->getValue() << std::endl;
                 //std::cout << "test";
                 break;
             }
@@ -58,13 +59,40 @@ Card *RealPlayer::play(std::string choice, Card &top_card) {
 }
 
 Card *Bot::play(std::string choice, Card &top_card) {
-    return nullptr;
+    possible_cards(top_card);
+    int index_of_card = 0;
+    Card *played_card = nullptr;
+    for (Card &card : this->player_cards.getCards()) {
+        //std::cout << card.getPlayable() << std::endl;
+        if (card.getPlayable()) {
+            played_card = &card;
+            //std::cout << played_card->getValue() << std::endl;
+            //std::cout << "test";
+            break;
+        }
+        index_of_card++;
+    }
+    return played_card;
 };
 
 void Player::draw(CardStack &card_stack, int amount) {
     for (int i = 0; i < amount; i++) {
         Card card_to_add = card_stack.pop();
         player_cards.add_card(card_to_add);
+    }
+}
+
+void Player::erase_played_card(Card *card_to_erase) {
+    Colors color_of_card_to_erase = card_to_erase->getColor();
+    int value_of_card_to_erase = card_to_erase->getValue();
+    int index_of_card = 0;
+    for (Card &card : this->player_cards.getCards()) {
+        if (color_of_card_to_erase == card.getColor() && value_of_card_to_erase == card.getValue()) {
+            //std::cout << card.getPlayable() << std::endl;
+            this->player_cards.getCards().erase(this->player_cards.getCards().begin() + index_of_card);
+            break;
+        }
+        index_of_card++;
     }
 }
 

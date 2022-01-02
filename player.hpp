@@ -16,8 +16,10 @@ class Player {
         void possible_cards(Card &top_card);
         void draw(CardStack &card_stack, int amount);
         Card virtual *play(std::string choice, Card &top_card);
+        void erase_played_card(Card *card_to_erase);
         void skip();
         Player();
+        Player(int value);
         PlayerCards &getPlayerCards();
         int &getPlayerValue();
         Colors getColorOfInputCard(std::string color_string);
@@ -27,13 +29,13 @@ class Player {
 class RealPlayer : public Player {
     public:
         Card virtual *play(std::string choice, Card &top_card) override;
-        RealPlayer();
+        RealPlayer(int value);
 };
 
 class Bot : public Player {
     public:
         Card virtual *play(std::string choice, Card &top_card) override;
-        Bot();
+        Bot(int value);
 };
 
 

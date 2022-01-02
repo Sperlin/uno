@@ -21,3 +21,9 @@ void PlayerCards::print_cards() {
 std::vector<Card> &PlayerCards::getCards() {
     return cards;
 }
+
+void PlayerCards::setAllPlayable() {
+    for (Card &card : cards) {
+        card.setPlayable(false);
+    }
+}

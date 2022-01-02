@@ -2,8 +2,8 @@
 
 Game::Game() {
     card_stack = CardStack();
-    RealPlayer *real_player = new RealPlayer();
-    Bot *bot_player = new Bot();
+    RealPlayer *real_player = new RealPlayer(0);
+    Bot *bot_player = new Bot(1);
     this->players.push_back(real_player);
     this->players.push_back(bot_player);
     played_cards = PlayedCards();
@@ -26,27 +26,75 @@ void Game::startGame() {
     runGame();
 }
 
+//wenn moeglich effekte in runGame implementieren
 void Game::runGame() {
-    printTopCard();
-    printCardsInHand();
-    Card top_card = this->current_turn.getTopCard();
-    int value_of_current_player = this->current_turn.getCurrentPlayer()->getPlayerValue();
-    std::string input_from_player;
-    if (value_of_current_player == 1) {
-        Card *card_to_play;
-        do {
-            input_from_player = getInput();
-            card_to_play = this->current_turn.getCurrentPlayer()->play(input_from_player, top_card);
-        } while (card_to_play == nullptr);
-        played_cards.save(*card_to_play);
+    bool game_running = true;
+    while (game_running) {
+        printTopCard();
         printCardsInHand();
+        Card top_card = this->current_turn.getTopCard();
+        int value_of_current_player = this->current_turn.getCurrentPlayer()->getPlayerValue();
+        std::string input_from_player;
+        Card *card_to_play;
+        if (value_of_current_player == 0) {
+            //printCardsInHand(); //MUSS SPAETER HIERHIN
+            do {
+                input_from_player = getInput();
+                card_to_play = this->current_turn.getCurrentPlayer()->play(input_from_player, top_card);
+            } while (card_to_play == nullptr);
+            played_cards.save(*card_to_play);
+            top_card = played_cards.top();
+            this->current_turn.getCurrentPlayer()->erase_played_card(card_to_play);
+            printCardsInHand(); //FOR TESTING PURPOSES
+        } else {
+            std::cout << "Bots turn" << std::endl;
+            card_to_play = this->current_turn.getCurrentPlayer()->play("test", top_card);
+            played_cards.save(*card_to_play);
+            top_card = played_cards.top();
+            this->current_turn.getCurrentPlayer()->erase_played_card(card_to_play);
+            //game_running = false; //FOR TESTING PURPOSES
+            printCardsInHand(); //FOR TESTING PURPOSES
+        }
+        Effects effect_for_next_turn = top_card.getEffect();
+        nextTurn(effect_for_next_turn);
+    }
+}
+
+void Game::nextTurn(Effects &played_effect) {
+    //next player, set playable on all cards false
+    Player* next_player = nextPlayer();
+    next_player->getPlayerCards().setAllPlayable();
+    //get top card
+    Card top_card = this->played_cards.top();
+    //get played effect
+    Effects effect_for_next_turn = played_effect;
+    //create and set new Turn
+    Turn next_turn = Turn(next_player, effect_for_next_turn, top_card);
+    this->current_turn = next_turn;
+}
+
+Player* Game::nextPlayer() {
+    int num_of_players = players.size();
+    int current_player_value = this->current_turn.getCurrentPlayer()->getPlayerValue();
+    if (current_player_value == num_of_players - 1) {
+        return players[0];
     } else {
-        std::cout << "test";
-        //current_turn.getCurrentPlayer().play();
+        return players[current_player_value + 1];
+    }
+}
+
+Player* Game::nextPlayerReverse() {
+    int num_of_players = players.size();
+    int current_player_value = this->current_turn.getCurrentPlayer()->getPlayerValue();
+    if (current_player_value == 0) {
+        return players[num_of_players - 1];
+    } else {
+        return players[current_player_value - 1];
     }
 }
 
 void Game::printTopCard() {
+    std::cout << "\n\nCurrent Top Card: ";
     printCard(current_turn.getTopCard());
     std::cout << std::endl;
 }
@@ -72,6 +120,14 @@ void Game::printCard(Card &card) {
             case Effects::skip:
             std::cout << "  " << "\033[1;31m " << "/" << "\033[0m";
             break;
+
+            case Effects::wild:
+            std::cout << "  " << "\033[1;31m " << "#" << "\033[0m";
+            break;
+
+            case Effects::wildDraw4:
+            std::cout << "  " << "\033[1;31m " << "+4" << "\033[0m";
+            break;
         };
         break;
 
@@ -91,6 +147,14 @@ void Game::printCard(Card &card) {
 
             case Effects::skip:
             std::cout << "  " << "\033[1;32m " << "/" << "\033[0m";
+            break;
+
+            case Effects::wild:
+            std::cout << "  " << "\033[1;32m " << "#" << "\033[0m";
+            break;
+
+            case Effects::wildDraw4:
+            std::cout << "  " << "\033[1;32m " << "+4" << "\033[0m";
             break;
         };
         break;
@@ -112,6 +176,14 @@ void Game::printCard(Card &card) {
             case Effects::skip:
             std::cout << "  " << "\033[1;33m " << "/" << "\033[0m";
             break;
+
+            case Effects::wild:
+            std::cout << "  " << "\033[1;33m " << "#" << "\033[0m";
+            break;
+
+            case Effects::wildDraw4:
+            std::cout << "  " << "\033[1;33m " << "+4" << "\033[0m";
+            break;
         };
         break;
 
@@ -131,6 +203,14 @@ void Game::printCard(Card &card) {
 
             case Effects::skip:
             std::cout << "  " << "\033[1;34m " << "/" << "\033[0m";
+            break;
+
+            case Effects::wild:
+            std::cout << "  " << "\033[1;34m " << "#" << "\033[0m";
+            break;
+
+            case Effects::wildDraw4:
+            std::cout << "  " << "\033[1;34m " << "+4" << "\033[0m";
             break;
         };
         break;
@@ -152,9 +232,11 @@ void Game::printCard(Card &card) {
 
 void Game::printCardsInHand() {
     std::vector<Card> cards_of_current_player = current_turn.getCurrentPlayer()->getPlayerCards().getCards();
+    std::cout << "Cards of Player " << current_turn.getCurrentPlayer()->getPlayerValue() << ":";
     for (Card &card_in_hand : cards_of_current_player) {
         printCard(card_in_hand);
     }
+    std::cout << std::endl;
 }
 
 std::string Game::getInput() {
@@ -165,7 +247,7 @@ std::string Game::getInput() {
         std::getline(std::cin, input_from_player);
         correct_input = std::regex_match(input_from_player, pattern_for_choice);
     } while (!correct_input);
-    std::cout << "Correct Input!" << std::endl;
+    //std::cout << "Correct Input!" << std::endl;
     return input_from_player;
 }
 

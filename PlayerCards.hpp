@@ -11,4 +11,5 @@ class PlayerCards {
         PlayerCards();
         void print_cards();
         std::vector<Card> &getCards();
+        void setAllPlayable();
 };
