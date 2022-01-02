@@ -29,14 +29,17 @@ void Game::startGame() {
 void Game::runGame() {
     printTopCard();
     printCardsInHand();
-    int name_of_current_player = this->current_turn.getCurrentPlayer()->getPlayerValue();
+    Card top_card = this->current_turn.getTopCard();
+    int value_of_current_player = this->current_turn.getCurrentPlayer()->getPlayerValue();
     std::string input_from_player;
-    if (name_of_current_player == 1) {
-        bool inpossible_input = true;
+    if (value_of_current_player == 1) {
+        Card *card_to_play;
         do {
             input_from_player = getInput();
-            inpossible_input = this->current_turn.getCurrentPlayer()->play(input_from_player);
-        } while (!inpossible_input);
+            card_to_play = this->current_turn.getCurrentPlayer()->play(input_from_player, top_card);
+        } while (card_to_play == nullptr);
+        played_cards.save(*card_to_play);
+        printCardsInHand();
     } else {
         std::cout << "test";
         //current_turn.getCurrentPlayer().play();
@@ -157,7 +160,7 @@ void Game::printCardsInHand() {
 std::string Game::getInput() {
     std::string input_from_player;
     bool correct_input = false;
-    std::regex pattern_for_choice("(blue|red|yellow|green|black)\\s{1}([0-9])");
+    std::regex pattern_for_choice("((blue|red|yellow|green)\\s{1}([0-9]|draw2|reverse|skip))|black\\s{1}(wild|draw4)");
     do {
         std::getline(std::cin, input_from_player);
         correct_input = std::regex_match(input_from_player, pattern_for_choice);

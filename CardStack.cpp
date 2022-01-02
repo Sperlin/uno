@@ -49,17 +49,17 @@ void CardStack::setCardStack()
         addFourCardsToStack(10, cardsCount, Effects::draw2);
         cardsCount +=4 ;
 
-        addFourCardsToStack(10, cardsCount, Effects::reverse);
+        addFourCardsToStack(11, cardsCount, Effects::reverse);
         cardsCount +=4 ;
 
-        addFourCardsToStack(10, cardsCount, Effects::skip);
+        addFourCardsToStack(12, cardsCount, Effects::skip);
         cardsCount +=4 ;
     }
     for(int i = 0; i < 8; i += 2)
     {
-        cards.push_back(Card(10, cardsCount, Colors::Black, Effects::wildDraw4));
+        cards.push_back(Card(13, cardsCount, Colors::Black, Effects::wildDraw4));
         cardsCount++;
-        cards.push_back(Card(10, cardsCount, Colors::Black, Effects::wild));
+        cards.push_back(Card(14, cardsCount, Colors::Black, Effects::wild));
         cardsCount++;
     }
 

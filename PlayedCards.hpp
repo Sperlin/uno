@@ -8,7 +8,7 @@ class PlayedCards {
     public:
         void save(Card &played_card);
         std::vector<Card> copy(std::vector<Card>);
-        Card top();
+        Card &top();
         std::vector<Card> &getPlayedCards();
         PlayedCards();
 };

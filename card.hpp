@@ -11,11 +11,14 @@ class Card
         int id;
         Colors color;
         Effects effect;
+        bool playable;
     public:
         Card(int Value, int Id, Colors Color, Effects Effect);
         int &getValue();
         int &getId();
         Colors &getColor();
         Effects &getEffect();
+        bool &getPlayable();
+        void setPlayable(bool status);
         Card();
 };

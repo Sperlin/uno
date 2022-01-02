@@ -13,3 +13,7 @@ void PlayedCards::save(Card &played_card) {
     this->played_cards.push_back(played_card);
 }
 
+Card &PlayedCards::top() {
+    return played_cards[played_cards.size() - 1];
+}
+

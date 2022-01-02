@@ -22,6 +22,14 @@
         return this -> effect;
     }
 
+    bool &Card::getPlayable() {
+        return this -> playable;
+    }
+
+    void Card::setPlayable(bool status) {
+        this->playable = status;
+    }
+
     Card::Card(){}
 
     Card::Card(int Value, int Id, Colors Color, Effects Effect){
@@ -29,5 +37,6 @@
         id = Id;
         color = Color;
         effect = Effect;
+        playable = false;
     }
 
