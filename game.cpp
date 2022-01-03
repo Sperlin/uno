@@ -50,6 +50,7 @@ void Game::runGame() {
             num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card);
             /* if the player still has no cards to play, next turn begins*/
             if (num_of_cards_to_play == 0) {
+                sleep(3);
                 Effects no_effect = Effects::noEffect;
                 nextTurn(no_effect);
                 continue;
