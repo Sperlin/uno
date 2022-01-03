@@ -1,12 +1,12 @@
 #include "PlayedCards.hpp"
 
-std::vector<Card> &PlayedCards::getPlayedCards() {
-    return played_cards;
-}
-
 PlayedCards::PlayedCards() {
     std::vector<Card> cards;
     this->played_cards = cards;
+}
+
+std::vector<Card> &PlayedCards::getPlayedCards() {
+    return played_cards;
 }
 
 void PlayedCards::save(Card &played_card) {

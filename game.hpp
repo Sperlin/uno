@@ -14,13 +14,13 @@ class Game {
         CardStack card_stack;
         PlayedCards played_cards;
     public:
+        Game();
         void startGame();
         void runGame();
         bool nextTurn(Effects &played_effect);
+        void win(Turn &current_turn);
         Player* nextPlayer();
         Player* nextPlayerReverse();
-        void win(Turn &current_turn);
-        Game();
         void printCard(Card &card);
         void printTopCard();
         void printCardsInHand();

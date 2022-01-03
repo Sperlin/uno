@@ -3,6 +3,12 @@
 #include <random>
 #include <iostream>
 
+CardStack::CardStack() {
+    std::vector<Card> cards;
+    this->cards = cards;
+    setCardStack();
+}
+
 Card CardStack::pop()
 {
     Card topCard = cards.front();
@@ -88,10 +94,4 @@ void CardStack::printCards() {
     for (Card card : this->cards) {
         std::cout << card.getId() << std::endl;
     }
-}
-
-CardStack::CardStack() {
-    std::vector<Card> cards;
-    this->cards = cards;
-    setCardStack();
 }

@@ -1,5 +1,6 @@
 #include "player.hpp"
 
+/* split string helper function */
 void split(const std::string& s, char c, std::vector<std::string>& v) {
     std::string::size_type i = 0;
     std::string::size_type j = s.find(c);
@@ -29,38 +30,46 @@ Bot::Bot(int value) {
     player_value = value;
 }
 
+PlayerCards &Player::getPlayerCards() {
+    return player_cards;
+}
+
+int &Player::getPlayerValue() {
+    return player_value;
+}
+
 Card *Player::play(std::string choice, Card &top_card) {
     std::cout << "Mistakes were made" << std::endl;
     return nullptr;
 };
 
 Card *RealPlayer::play(std::string choice, Card &top_card) {
+    /* return and "play" chosen card */
     //std::cout << "Hopefully you can read this" << std::endl;
     std::vector<std::string> input_elements;
+    /* split input in color and value */
     split(choice, ' ', input_elements);
-    //possible_cards(top_card);
     Colors color_of_input_card = getColorOfInputCard(input_elements[0]);
     int value_of_input_card = getValueOfInputCard(input_elements[1]);
-    int index_of_card = 0;
+    /* check if chosen card is actually in hand an playable */
     Card *played_card = nullptr;
     for (Card &card : this->player_cards.getCards()) {
         if (color_of_input_card == card.getColor() && value_of_input_card == card.getValue()) {
-            //std::cout << card.getPlayable() << std::endl;
+            //std::cout << card.getPlayable() << std::endl; // FOR TESTING PURPOSES
             if (card.getPlayable()) {
                 played_card = &card;
-                //std::cout << played_card->getValue() << std::endl;
+                //std::cout << played_card->getValue() << std::endl; // FOR TESTING PURPOSES
                 //std::cout << "test";
                 break;
             }
         }
-        index_of_card++;
     }
     return played_card;
 }
 
 Card *Bot::play(std::string choice, Card &top_card) {
+    /* return and "play" first playable card */
     //possible_cards(top_card);
-    int index_of_card = 0;
     Card *played_card = nullptr;
     for (Card &card : this->player_cards.getCards()) {
         //std::cout << card.getPlayable() << std::endl;
@@ -70,10 +79,26 @@ Card *Bot::play(std::string choice, Card &top_card) {
             //std::cout << "test";
             break;
         }
-        index_of_card++;
     }
     return played_card;
 };
+
+int Player::possible_cards(Card &top_card) {
+    /* set playable to true on all playable card */
+    int num_of_playable_cards = 0;
+    for (Card &card : player_cards.getCards()) {
+        Colors color_card_hand = card.getColor();
+        int value_card_hand = card.getValue();
+        Colors color_top_card = top_card.getColor();
+        int value_top_card = top_card.getValue();
+        if (color_card_hand == Colors::Black || color_card_hand == color_top_card || value_card_hand == value_top_card) {
+            card.setPlayable(true);
+            num_of_playable_cards++;
+            //std::cout << "Possible: " << card.getValue() << card.getPlayable() << std::endl;
+        }
+    }
+    return num_of_playable_cards;
+}
 
 void Player::draw(CardStack &card_stack, int amount) {
     for (int i = 0; i < amount; i++) {
@@ -94,30 +119,6 @@ void Player::erase_played_card(Card *card_to_erase) {
         }
         index_of_card++;
     }
-}
-
-PlayerCards &Player::getPlayerCards() {
-    return player_cards;
-}
-
-int &Player::getPlayerValue() {
-    return player_value;
-}
-
-int Player::possible_cards(Card &top_card) {
-    int num_of_playable_cards = 0;
-    for (Card &card : player_cards.getCards()) {
-        Colors color_card_hand = card.getColor();
-        int value_card_hand = card.getValue();
-        Colors color_top_card = top_card.getColor();
-        int value_top_card = top_card.getValue();
-        if (color_card_hand == Colors::Black || color_card_hand == color_top_card || value_card_hand == value_top_card) {
-            card.setPlayable(true);
-            num_of_playable_cards++;
-            //std::cout << "Possible: " << card.getValue() << card.getPlayable() << std::endl;
-        }
-    }
-    return num_of_playable_cards;
 }
 
 Colors Player::getColorOfInputCard(std::string color_string) {

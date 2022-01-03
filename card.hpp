@@ -1,6 +1,6 @@
 #pragma once
-#include "Colors.cpp"
 #include <string>
+#include "Colors.cpp"
 #include "Effect.cpp"
 
 class Card
@@ -13,13 +13,13 @@ class Card
         Effects effect;
         bool playable;
     public:
+        Card();
         Card(int Value, int Id, Colors Color, Effects Effect);
         int &getValue();
         int &getId();
         Colors &getColor();
-        void setColor(Colors color);
         Effects &getEffect();
         bool &getPlayable();
+        void setColor(Colors color);
         void setPlayable(bool status);
-        Card();
 };
