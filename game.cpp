@@ -16,8 +16,14 @@ void Game::startGame() {
     for (Player *player : players) {
         player->draw(card_stack, 7);
     }
+
     /* set first top card (ANPASSEN, DASS KEINE EFFEKT KARTEN ALS ERSTES LIEGEN */
     Card first_card = card_stack.pop();
+    while(first_card.getEffect() != Effects::noEffect){
+        card_stack.push_back(first_card);
+        first_card = card_stack.pop();
+    }
+
     this->played_cards.save(first_card);
     /* set first turn with the real player beginning */
     Turn first_turn = Turn(this->players[0], Effects::noEffect, played_cards.getPlayedCards()[0]);
@@ -42,6 +48,17 @@ void Game::runGame() {
         /* sets all playable fields of all the cards player can play to true */
         int num_of_cards_to_play;
         num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card);
+
+        //if(current_turn.getEffectFromPreviousPlayer() == Effects::draw2){
+//
+  //      }
+
+        //If the player has no other skip turn card, skip to the next player
+        if(top_card.getEffect() == Effects::skip && num_of_cards_to_play == 0){
+            nextTurn(Effects::noEffect);
+            continue; //Skip to the next turn
+        }
+
         if (num_of_cards_to_play == 0) {
             /* if the player has no cards to play, draw one */
             this->current_turn.getCurrentPlayer()->draw(this->card_stack, 1);
@@ -88,7 +105,14 @@ void Game::runGame() {
         this->current_turn.getCurrentPlayer()->erase_played_card(card_to_play);
         printCardsInHand(); //FOR TESTING PURPOSES
         /* get effect of the played card for the next turn and begin next turn */
-        Effects effect_for_next_turn = top_card.getEffect();
+        Effects effect_for_next_turn = top_card.getEffect(); //change
+        //Change direction here ----------------------------------------
+        if(top_card.getEffect() == Effects::reverse){
+            this->current_turn.changeDirection();
+        }
+        else if(top_card.getEffect() == Effects::wild){
+            top_card.setColor() = colorChoice(value_of_current_player); //Make user or bot choose the color 
+        }
         game_running = nextTurn(effect_for_next_turn);
     }
     /* player has won */
@@ -102,14 +126,20 @@ bool Game::nextTurn(Effects &played_effect) {
         return false;
     } else {
         /* next player, set playable on all cards to false */
-        Player* next_player = nextPlayer();
+        Player* next_player;
+        if(this->current_turn.getDirection() == "clockwise"){
+            next_player = nextPlayer();
+        }
+        else{
+            next_player = nextPlayerReverse();
+        }
         next_player->getPlayerCards().setAllPlayable();
         /* get top card */
         Card top_card = this->played_cards.top();
         /* get played effect */
         Effects effect_for_next_turn = played_effect;
         /* create and set new Turn */
-        Turn next_turn = Turn(next_player, effect_for_next_turn, top_card);
+        Turn next_turn = Turn(next_player, effect_for_next_turn, top_card, this -> current_turn.getDirection());
         this->current_turn = next_turn;
         return true;
     }
@@ -299,5 +329,40 @@ std::string Game::getInput() {
     //std::cout << "Correct Input!" << std::endl;
     return input_from_player;
 }
+Colors colorChoice(int playerId){
+    if(playerId == 0){
+        std::string input_from_player;
+        bool correct_input = false;
+        std::regex pattern_for_choice("(blue|red|yellow|green)");
+    do {
+        std::getline(std::cin, input_from_player);
+        correct_input = std::regex_match(input_from_player, pattern_for_choice);
+    } while (!correct_input);
+        switch(input_from_player){
+            case "blue":
+                return Colors::blue;
+            case "red":
+                return Colors::red;
+            case "yellow":
+                return Colors::yellow;
+            case "green":
+                return Colors::green;
+        }
+    }
+    if(playerId > 0){
+        //Random number between 0 and 3
+        int randomNumber = rand() % 4; 
+        switch(randomNumber){
+            case 0:
+                return Colors::blue;
+            case 1:
+                return Colors::red;
+            case 2:
+                return Colors::yellow;
+            case 3:
+                return Colors::green;
+        }
+    }
 
+}
 
