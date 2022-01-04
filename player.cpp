@@ -51,7 +51,7 @@ Card *RealPlayer::play(std::string choice, Card &top_card) {
     split(choice, ' ', input_elements);
     Colors color_of_input_card = getColorOfInputCard(input_elements[0]);
     int value_of_input_card = getValueOfInputCard(input_elements[1]);
-    /* check if chosen card is actually in hand an playable */
+    /* check if chosen card is actually in hand and playable */
     Card *played_card = nullptr;
     for (Card &card : this->player_cards.getCards()) {
         if (color_of_input_card == card.getColor() && value_of_input_card == card.getValue()) {
