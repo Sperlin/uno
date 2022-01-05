@@ -19,14 +19,12 @@
     {
         return this -> id;
     }
-    
+
     Colors &Card::getColor()
     {
         return this -> color;
     }
-    //Normal card has no effects
-    //Create new card in playerCards class:
-    //  Try parsing the card from string to int, if doesn't work: create special card  
+    
     Effects &Card::getEffect()
     {
         return this -> effect;
@@ -42,5 +40,8 @@
 
     void Card::setPlayable(bool status) {
         this->playable = status;
+    }
+    void Card::setEffect(Effects effect){
+        this->effect = effect;
     }
 

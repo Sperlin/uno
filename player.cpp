@@ -87,15 +87,54 @@ int Player::possible_cards(Card &top_card) {
     /* set playable to true on all playable card */
     int num_of_playable_cards = 0;
     for (Card &card : player_cards.getCards()) {
+
         Colors color_card_hand = card.getColor();
         int value_card_hand = card.getValue();
         Colors color_top_card = top_card.getColor();
         int value_top_card = top_card.getValue();
-        if (color_card_hand == Colors::Black || color_card_hand == color_top_card || value_card_hand == value_top_card) {
-            card.setPlayable(true);
-            num_of_playable_cards++;
-            //std::cout << "Possible: " << card.getValue() << card.getPlayable() << std::endl;
+        Effects effect_card_hand = card.getEffect();
+        Effects effect_top_card = top_card.getEffect();
+
+        if(effect_top_card == Effects::noEffect || effect_card_hand == effect_top_card){
+            if (color_card_hand == Colors::Black || color_card_hand == color_top_card || value_card_hand == value_top_card) {
+                card.setPlayable(true);
+                num_of_playable_cards++;
+                
+                std::cout << "Possible: " << card.getValue() << card.getPlayable() << std::endl;
+            }
         }
+        //if(effect_top_card == Effects::skip){
+         //   Effects no_effect = Effects::noEffect;
+        //    top_card.setEffect(no_effect);
+       // }
+    }
+    return num_of_playable_cards;
+}
+
+int Player::possible_cards(Card &top_card, bool cardPlayed) {
+    /* set playable to true on all playable card */
+    int num_of_playable_cards = 0;
+    for (Card &card : player_cards.getCards()) {
+
+        Colors color_card_hand = card.getColor();
+        int value_card_hand = card.getValue();
+        Colors color_top_card = top_card.getColor();
+        int value_top_card = top_card.getValue();
+        Effects effect_card_hand = card.getEffect();
+        Effects effect_top_card = top_card.getEffect();
+        
+        if(effect_top_card == Effects::noEffect || effect_card_hand == effect_top_card || cardPlayed){
+            if (color_card_hand == Colors::Black || color_card_hand == color_top_card || value_card_hand == value_top_card) {
+                card.setPlayable(true);
+                num_of_playable_cards++;
+                
+                std::cout << "Possible: " << card.getValue() << card.getPlayable() << std::endl;
+            }
+        }
+        //if(effect_top_card == Effects::skip){
+         //   Effects no_effect = Effects::noEffect;
+        //    top_card.setEffect(no_effect);
+       // }
     }
     return num_of_playable_cards;
 }

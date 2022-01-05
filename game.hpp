@@ -17,7 +17,7 @@ class Game {
         Game();
         void startGame();
         void runGame();
-        bool nextTurn(Effects &played_effect);
+        bool nextTurn(Effects &effect_for_next_turn);
         void win(Turn &current_turn);
         Player* nextPlayer();
         Player* nextPlayerReverse();
@@ -25,4 +25,6 @@ class Game {
         void printTopCard();
         void printCardsInHand();
         std::string getInput();
+        Colors colorChoice(int playerId);
+        std::string parseEffect(Effects effect);
 };

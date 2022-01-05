@@ -22,4 +22,5 @@ class Card
         bool &getPlayable();
         void setColor(Colors color);
         void setPlayable(bool status);
+        void setEffect(Effects effect);
 };

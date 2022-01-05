@@ -8,6 +8,9 @@ CardStack::CardStack() {
     this->cards = cards;
     setCardStack();
 }
+void CardStack::push_back(Card card){
+    this->cards.push_back(card);
+}
 
 Card CardStack::pop()
 {
@@ -35,6 +38,7 @@ void CardStack::shuffle()
 
 }
 //use in constructor?
+
 
 void CardStack::setCardStack()
 {
