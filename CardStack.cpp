@@ -34,6 +34,10 @@ void CardStack::shuffle()
     std::shuffle(cards.begin(), cards.end(), rng);
 
 }
+
+std::vector<Card> CardStack::getCards() {
+    return cards;
+}
 //use in constructor?
 
 void CardStack::setCardStack()

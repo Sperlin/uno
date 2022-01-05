@@ -25,4 +25,5 @@ class Game {
         void printTopCard();
         void printCardsInHand();
         std::string getInput();
+        Colors colorChoice(int playerId);
 };
