@@ -1,7 +1,5 @@
 #include "CardStack.hpp"
-#include <algorithm>
-#include <random>
-#include <iostream>
+
 
 CardStack::CardStack() {
     std::vector<Card> cards;
@@ -88,9 +86,10 @@ void CardStack::addFourCardsToStack(int cardValue, int cardsCount, Effects effec
     cards.push_back(Card(cardValue, cardsCount+3, Colors::Yellow, effect));
 }
 
-void CardStack::setCardStack(std::vector<Card>)
+void CardStack::setCardStack(std::vector<Card> cards)
 {
-
+    this->cards = cards;
+    cards.shuffle();
 }
 
 void CardStack::printCards() {

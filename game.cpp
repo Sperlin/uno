@@ -42,25 +42,24 @@ void Game::runGame() {
     bool game_running = true;
     while (game_running) {
         Effects no_effect = Effects::noEffect;
-        
         /* get top card each turn */
         Card top_card = this->current_turn.getTopCard();
-        bool cardPlayed = false;
+        bool effectNotPending = false;
         Effects current_effect = this->current_turn.getEffectFromPreviousPlayer();
+
         if(current_effect == no_effect || current_effect == Effects::wild || current_effect == Effects::reverse)
         {
-            std::cout << "DID WE GET HERE?" << std::endl;
-            cardPlayed = true;
+            effectNotPending = true;
         }
         printTopCard();
         printCardsInHand(); // MUSS SPAETER WEG
         /* sets all playable fields of all the cards player can play to true */
         int num_of_cards_to_play;
-        num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card, cardPlayed);
+        num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card, effectNotPending);
 
         if (num_of_cards_to_play == 0) {
             Effects top_card_effect = top_card.getEffect();
-            if(!cardPlayed){
+            if(!effectNotPending){
                 if(top_card_effect == Effects::draw2 || top_card_effect == Effects::wildDraw4){
                 
                 this->current_turn.getCurrentPlayer()->draw(this->card_stack, current_turn.getCardsToAdd());
@@ -88,7 +87,7 @@ void Game::runGame() {
                 std::cout << "You drew a card!" << std::endl;
                 printCardsInHand();
 
-                num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card, cardPlayed);
+                num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card, effectNotPending);
                 if (num_of_cards_to_play == 0) {
                 /* if the player still has no cards to play, next turn begins*/
                 sleep(3);
@@ -372,6 +371,16 @@ std::string Game::getInput() {
     //std::cout << "Correct Input!" << std::endl;
     return input_from_player;
 }
+
+        std::random_device rd;  
+        //Standard mersenne_twister_engine seeded with rd()
+        std::mt19937 gen(std::chrono::system_clock::now().time_since_epoch().count());
+
+        int GetRandomNumberBetween(int lower, int upper){
+        std::uniform_int_distribution<> dis(lower, upper);
+        return dis(gen);
+        }
+
 Colors Game::colorChoice(int playerId){
     std::string input_from_player;
     if(playerId == 0){
@@ -401,7 +410,9 @@ Colors Game::colorChoice(int playerId){
     }
     if(playerId > 0){
         //Random number between 0 and 3
-        int randomNumber = rand() % 4; 
+        
+
+        int randomNumber = GetRandomNumberBetween (0, 3); 
         switch(randomNumber){
             case 0:
                 return Colors::Blue;

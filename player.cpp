@@ -94,8 +94,12 @@ int Player::possible_cards(Card &top_card) {
         int value_top_card = top_card.getValue();
         Effects effect_card_hand = card.getEffect();
         Effects effect_top_card = top_card.getEffect();
+        
+        //if()
 
-        if(effect_top_card == Effects::noEffect || effect_card_hand == effect_top_card){
+        if(effect_top_card == Effects::noEffect || effect_card_hand == effect_top_card || 
+        effect_top_card == Effects::wildDraw4 && effect_card_hand == Effects::draw2 || effect_top_card == Effects::draw2 && effect_card_hand == Effects::wildDraw4){
+
             if (color_card_hand == Colors::Black || color_card_hand == color_top_card || value_card_hand == value_top_card) {
                 card.setPlayable(true);
                 num_of_playable_cards++;
@@ -103,10 +107,6 @@ int Player::possible_cards(Card &top_card) {
                 std::cout << "Possible: " << card.getValue() << card.getPlayable() << std::endl;
             }
         }
-        //if(effect_top_card == Effects::skip){
-         //   Effects no_effect = Effects::noEffect;
-        //    top_card.setEffect(no_effect);
-       // }
     }
     return num_of_playable_cards;
 }

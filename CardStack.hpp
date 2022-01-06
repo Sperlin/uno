@@ -1,6 +1,10 @@
 #pragma once
 #include <vector>
+#include <algorithm>
+#include <random>
+#include <iostream>
 #include "card.hpp"
+
 
 class CardStack{
     private:
