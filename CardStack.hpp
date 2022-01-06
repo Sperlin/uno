@@ -12,11 +12,12 @@ class CardStack{
         void shuffle();
     public:
         CardStack();
+        CardStack(std::vector<Card>);
         Card pop();
         bool isEmpty();
         void setCardStack();
-        void setCardStack(std::vector<Card>);
         void push_back(Card card);
         void addFourCardsToStack(int cardsCount, int counter, Effects effect);
         void printCards(); // FOR TESTING PURPOSES
+        int getCardsCount();
 };

@@ -5,9 +5,34 @@ Game::Game() {
     RealPlayer *real_player = new RealPlayer(0);
     Bot *bot_player = new Bot(1);
     Bot *bot_player2 = new Bot(2);
+    Bot *bot_player3 = new Bot(3);
+    Bot *bot_player4 = new Bot(4);
+    Bot *bot_player5 = new Bot(5);
+    Bot *bot_player6 = new Bot(6);
+    Bot *bot_player7 = new Bot(7);
+    Bot *bot_player8 = new Bot(8);
+    Bot *bot_player9 = new Bot(9);
+    Bot *bot_player10 = new Bot(10);
+    Bot *bot_player11 = new Bot(11);
+    Bot *bot_player12 = new Bot(12);
+    Bot *bot_player13 = new Bot(13);
+
     this->players.push_back(real_player);
     this->players.push_back(bot_player);
     this->players.push_back(bot_player2);
+    this->players.push_back(bot_player3);
+    this->players.push_back(bot_player4);
+    this->players.push_back(bot_player5);
+    this->players.push_back(bot_player6);
+    this->players.push_back(bot_player7);
+    this->players.push_back(bot_player8);
+    this->players.push_back(bot_player9);
+    this->players.push_back(bot_player10);
+    this->players.push_back(bot_player11);
+    this->players.push_back(bot_player12);
+    this->players.push_back(bot_player13);
+
+
     played_cards = PlayedCards();
 }
 
@@ -17,7 +42,7 @@ void Game::startGame() {
         player->draw(card_stack, 7);
     }
 
-    /* set first top card (ANPASSEN, DASS KEINE EFFEKT KARTEN ALS ERSTES LIEGEN */
+    /* set first top card (search until you get non effect card)*/
     Card first_card = card_stack.pop();
     while(first_card.getEffect() != Effects::noEffect){
         card_stack.push_back(first_card);
@@ -28,12 +53,6 @@ void Game::startGame() {
     /* set first turn with the real player beginning */
     Turn first_turn = Turn(this->players[0], Effects::noEffect, 0, played_cards.getPlayedCards()[0], "clockwise");
     this->current_turn = first_turn;
-    
-    // for (Player &player : players) {
-    //     player.getPlayerCards().print_cards();
-    // }
-    // std::cout << current_turn.getTopCard().getId() << std::endl;
-    // card_stack.printCards();
     runGame();
 }
 
@@ -41,6 +60,12 @@ void Game::startGame() {
 void Game::runGame() {
     bool game_running = true;
     while (game_running) {
+        
+        if(card_stack.isEmpty()){
+            std::cout << "THE STACK IS EMPTY, SHUFFLING" << std::endl;
+            card_stack = played_cards.copy(played_cards.getPlayedCards());
+        }
+
         Effects no_effect = Effects::noEffect;
         /* get top card each turn */
         Card top_card = this->current_turn.getTopCard();
@@ -62,15 +87,19 @@ void Game::runGame() {
             if(!effectNotPending){
                 if(top_card_effect == Effects::draw2 || top_card_effect == Effects::wildDraw4){
                 
+                if(this->card_stack.getCardsCount() < current_turn.getCardsToAdd()){
+                    std::cout << "THE STACK IS EMPTY, SHUFFLING" << std::endl;
+                    card_stack = played_cards.copy(played_cards.getPlayedCards());
+                }
+
                 this->current_turn.getCurrentPlayer()->draw(this->card_stack, current_turn.getCardsToAdd());
+                
+                
                 std::cout << "You drew: " << current_turn.getCardsToAdd() << " cards" << std::endl;
                 printCardsInHand();
                 current_turn.setCardsToAdd(0);
 
-                //std::cout << "DID WE GET HERE??" << std::endl;
-                //std::cout << parseEffect(top_card.getEffect()) <<std::endl;
                 sleep(3);
-
                 nextTurn(no_effect); //change effect to nothing
                 continue;
                 }
@@ -95,7 +124,6 @@ void Game::runGame() {
                 continue;
                 }
             }
-
         }
 
         int value_of_current_player = this->current_turn.getCurrentPlayer()->getPlayerValue();
@@ -111,23 +139,18 @@ void Game::runGame() {
                 card_to_play = this->current_turn.getCurrentPlayer()->play(input_from_player, top_card);
             } while (card_to_play == nullptr);
 
-            
-
         } else {
             /* if it is a bots turn */
             std::cout << "Bots turn" << std::endl;
             sleep(3);
             /* bot plays first card that it can play */
             card_to_play = this->current_turn.getCurrentPlayer()->play("test", top_card);
-            //game_running = false; //FOR TESTING PURPOSES
         }
-        //DAS HIER FUNKTIONIERT---------------------------------
+        //Choose between different special cards---------------------------------
         if (card_to_play->getColor() == Colors::Black) { 
             Colors colorchoice = colorChoice(value_of_current_player); //Make user or bot choose the color 
             card_to_play->setColor(colorchoice); 
         }
-        //------------------------------------------------------
-
         if(card_to_play->getEffect() == Effects::draw2){
             this->current_turn.addToCardsCounter(2);
         }
@@ -135,25 +158,17 @@ void Game::runGame() {
             this->current_turn.addToCardsCounter(4);
         }
         if(card_to_play->getEffect() == Effects::reverse){
-            this->current_turn.changeDirection();
+            this->current_turn.changeDirection(); 
         }
+        //------------------------------------------------------------------------
         /* save the card in played_cards and delete it from hand */
         played_cards.save(*card_to_play);
-        top_card = played_cards.top();
-        //std::cout << "HERE??????" << parseEffect(top_card.getEffect());
-        
+        top_card = played_cards.top();        
         this->current_turn.getCurrentPlayer()->erase_played_card(card_to_play);
-        printCardsInHand(); //FOR TESTING PURPOSES
-        /* get effect of the played card for the next turn and begin next turn */
+        //printCardsInHand(); //FOR TESTING PURPOSES
 
         Effects effect_for_next_turn = top_card.getEffect(); //change
-        //Change direction here ----------------------------------------
 
-
-       /* else if(top_card.getEffect() == Effects::wild){
-            Colors colorchoice = colorChoice(value_of_current_player); //Make user or bot choose the color 
-            top_card.setColor(colorchoice); 
-        }*/
         game_running = nextTurn(effect_for_next_turn);
     }
     /* player has won */
@@ -346,8 +361,6 @@ void Game::printCard(Card &card) {
 void Game::printTopCard() {
     std::cout << "\n\nCurrent Top Card: ";
     printCard(current_turn.getTopCard());
-    std::string effect = parseEffect(current_turn.getTopCard().getEffect());
-    std::cout << " Effect: " << effect;
     std::cout << std::endl;
 }
 
@@ -368,7 +381,7 @@ std::string Game::getInput() {
         std::getline(std::cin, input_from_player);
         correct_input = std::regex_match(input_from_player, pattern_for_choice);
     } while (!correct_input);
-    //std::cout << "Correct Input!" << std::endl;
+
     return input_from_player;
 }
 
@@ -387,32 +400,28 @@ Colors Game::colorChoice(int playerId){
         std::cout << "Choose color:" << std::endl;
         bool correct_input = false;
         std::regex pattern_for_choice("(blue|red|yellow|green)");
-    do {
-        std::getline(std::cin, input_from_player);
-        correct_input = std::regex_match(input_from_player, pattern_for_choice);
-        std::cout << "Test2" << std::endl;
-    } while (!correct_input);
+
+        do {
+            std::getline(std::cin, input_from_player);
+            correct_input = std::regex_match(input_from_player, pattern_for_choice);
+        } while (!correct_input);
     
-    if(input_from_player == "blue"){
-        return Colors::Blue;
-    }
-    else if(input_from_player == "red"){
-        std::cout << "nice" << std::endl;
-        return Colors::Red;
-    }
-    else if(input_from_player == "yellow"){
-        return Colors::Yellow;
-    }
-    else if(input_from_player == "green"){
-        return Colors::Green;
-    }
+        if(input_from_player == "blue"){
+            return Colors::Blue;
+        }
+        else if(input_from_player == "red"){
+            return Colors::Red;
+        }
+        else if(input_from_player == "yellow"){
+            return Colors::Yellow;
+        }
+        else if(input_from_player == "green"){
+            return Colors::Green;
+        }
 
     }
     if(playerId > 0){
-        //Random number between 0 and 3
-        
-
-        int randomNumber = GetRandomNumberBetween (0, 3); 
+        int randomNumber = GetRandomNumberBetween (0, 3); //Random number between 0 and 3
         switch(randomNumber){
             case 0:
                 return Colors::Blue;
@@ -426,26 +435,4 @@ Colors Game::colorChoice(int playerId){
     }
     std::cout << input_from_player << std::endl;
     return Colors::Blue; //not possible 
-}
-
-std::string Game::parseEffect(Effects effect){
-    if(effect == Effects::noEffect){
-        return "noEffect";
-    }
-    if(effect == Effects::draw2){
-        return "draw2";
-    }
-    if(effect == Effects::wild){
-        return "wild";
-    }
-    if(effect == Effects::skip){
-        return "skip";
-    }
-    if(effect == Effects::wildDraw4){
-        return "draw4";
-    }
-    if(effect == Effects::reverse){
-        return "reverse";
-    }
-    return "noEffect";
 }

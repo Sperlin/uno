@@ -18,7 +18,6 @@ class Player {
         PlayerCards &getPlayerCards();
         int &getPlayerValue();
         Card virtual *play(std::string choice, Card &top_card);
-        int possible_cards(Card &top_card);
         int possible_cards(Card &top_card, bool cardPlayed);
         void draw(CardStack &card_stack, int amount);
         void erase_played_card(Card *card_to_erase);

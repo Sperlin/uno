@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "card.hpp"
+#include "CardStack.hpp"
 
 class PlayedCards {
     private:
@@ -10,5 +11,5 @@ class PlayedCards {
         std::vector<Card> &getPlayedCards();
         void save(Card &played_card);
         Card &top();
-        std::vector<Card> copy(std::vector<Card>);
+        CardStack copy(std::vector<Card>);
 };

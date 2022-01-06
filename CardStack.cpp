@@ -6,6 +6,15 @@ CardStack::CardStack() {
     this->cards = cards;
     setCardStack();
 }
+CardStack::CardStack(std::vector<Card> cards) {
+    this->cards = cards;
+    shuffle();
+ }
+
+int CardStack::getCardsCount(){
+    return this->cards.size();
+}
+
 void CardStack::push_back(Card card){
     this->cards.push_back(card);
 }
@@ -35,8 +44,6 @@ void CardStack::shuffle()
     std::shuffle(cards.begin(), cards.end(), rng);
 
 }
-//use in constructor?
-
 
 void CardStack::setCardStack()
 {
@@ -72,7 +79,7 @@ void CardStack::setCardStack()
     }
 
     //Shuffle a couple of times to get everything random 
-    for(int i = 0; i < 100; i++)
+    for(int i = 0; i < 10; i++)
     {
         shuffle();
     }
@@ -84,12 +91,6 @@ void CardStack::addFourCardsToStack(int cardValue, int cardsCount, Effects effec
     cards.push_back(Card(cardValue, cardsCount+1, Colors::Green, effect));
     cards.push_back(Card(cardValue, cardsCount+2, Colors::Red, effect));
     cards.push_back(Card(cardValue, cardsCount+3, Colors::Yellow, effect));
-}
-
-void CardStack::setCardStack(std::vector<Card> cards)
-{
-    this->cards = cards;
-    cards.shuffle();
 }
 
 void CardStack::printCards() {

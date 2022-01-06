@@ -17,3 +17,8 @@ Card &PlayedCards::top() {
     return played_cards[played_cards.size() - 1];
 }
 
+CardStack PlayedCards::copy(std::vector<Card> cards){
+    CardStack card_stack = CardStack(cards);
+    this->played_cards.clear(); 
+    return card_stack;
+}
