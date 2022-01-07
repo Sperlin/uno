@@ -97,7 +97,7 @@ void Game::runGame() {
                 
                 
                 std::cout << "You drew: " << current_turn.getCardsToAdd() << " cards" << std::endl;
-                printCardsInHand();
+                printGameTable();
                 current_turn.setCardsToAdd(0);
 
                 sleep(3);
@@ -115,7 +115,7 @@ void Game::runGame() {
                 /* if the player has no cards to play, draw one */
                 this->current_turn.getCurrentPlayer()->draw(this->card_stack, 1);
                 std::cout << "You drew a card!" << std::endl;
-                printCardsInHand();
+                printGameTable();
 
                 num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card, effectNotPending);
                 if (num_of_cards_to_play == 0) {
@@ -235,27 +235,27 @@ void Game::printCard(Card &card) {
         case Colors::Red:
         switch (card_effect) {
             case Effects::noEffect:
-            std::cout << "  " << "\033[1;31m " << card.getValue() << "\033[0m";
+            std::cout << " " << "\033[1;31m " << card.getValue() << "\033[0m";
             break;
 
             case Effects::draw2:
-            std::cout << "  " << "\033[1;31m " << "+2" << "\033[0m";
+            std::cout << " " << "\033[1;31m " << "+2" << "\033[0m";
             break;
 
             case Effects::reverse:
-            std::cout << "  " << "\033[1;31m " << "&" << "\033[0m";
+            std::cout << " " << "\033[1;31m " << "&" << "\033[0m";
             break;
 
             case Effects::skip:
-            std::cout << "  " << "\033[1;31m " << "/" << "\033[0m";
+            std::cout << " " << "\033[1;31m " << "/" << "\033[0m";
             break;
 
             case Effects::wild:
-            std::cout << "  " << "\033[1;31m " << "#" << "\033[0m";
+            std::cout << " " << "\033[1;31m " << "#" << "\033[0m";
             break;
 
             case Effects::wildDraw4:
-            std::cout << "  " << "\033[1;31m " << "+4" << "\033[0m";
+            std::cout << " " << "\033[1;31m " << "+4" << "\033[0m";
             break;
         };
         break;
@@ -263,27 +263,27 @@ void Game::printCard(Card &card) {
         case Colors::Green:
         switch (card_effect) {
             case Effects::noEffect:
-            std::cout << "  " << "\033[1;32m " << card.getValue() << "\033[0m";
+            std::cout << " " << "\033[1;32m " << card.getValue() << "\033[0m";
             break;
 
             case Effects::draw2:
-            std::cout << "  " << "\033[1;32m " << "+2" << "\033[0m";
+            std::cout << " " << "\033[1;32m " << "+2" << "\033[0m";
             break;
 
             case Effects::reverse:
-            std::cout << "  " << "\033[1;32m " << "&" << "\033[0m";
+            std::cout << " " << "\033[1;32m " << "&" << "\033[0m";
             break;
 
             case Effects::skip:
-            std::cout << "  " << "\033[1;32m " << "/" << "\033[0m";
+            std::cout << " " << "\033[1;32m " << "/" << "\033[0m";
             break;
 
             case Effects::wild:
-            std::cout << "  " << "\033[1;32m " << "#" << "\033[0m";
+            std::cout << " " << "\033[1;32m " << "#" << "\033[0m";
             break;
 
             case Effects::wildDraw4:
-            std::cout << "  " << "\033[1;32m " << "+4" << "\033[0m";
+            std::cout << " " << "\033[1;32m " << "+4" << "\033[0m";
             break;
         };
         break;
@@ -291,27 +291,27 @@ void Game::printCard(Card &card) {
         case Colors::Yellow:
         switch (card_effect) {
             case Effects::noEffect:
-            std::cout << "  " << "\033[1;33m " << card.getValue() << "\033[0m";
+            std::cout << " " << "\033[1;33m " << card.getValue() << "\033[0m";
             break;
 
             case Effects::draw2:
-            std::cout << "  " << "\033[1;33m " << "+2" << "\033[0m";
+            std::cout << " " << "\033[1;33m " << "+2" << "\033[0m";
             break;
 
             case Effects::reverse:
-            std::cout << "  " << "\033[1;33m " << "&" << "\033[0m";
+            std::cout << " " << "\033[1;33m " << "&" << "\033[0m";
             break;
 
             case Effects::skip:
-            std::cout << "  " << "\033[1;33m " << "/" << "\033[0m";
+            std::cout << " " << "\033[1;33m " << "/" << "\033[0m";
             break;
 
             case Effects::wild:
-            std::cout << "  " << "\033[1;33m " << "#" << "\033[0m";
+            std::cout << " " << "\033[1;33m " << "#" << "\033[0m";
             break;
 
             case Effects::wildDraw4:
-            std::cout << "  " << "\033[1;33m " << "+4" << "\033[0m";
+            std::cout << " " << "\033[1;33m " << "+4" << "\033[0m";
             break;
         };
         break;
@@ -319,27 +319,27 @@ void Game::printCard(Card &card) {
         case Colors::Blue:
         switch (card_effect) {
             case Effects::noEffect:
-            std::cout << "  " << "\033[1;34m " << card.getValue() << "\033[0m";
+            std::cout << " " << "\033[1;34m " << card.getValue() << "\033[0m";
             break;
 
             case Effects::draw2:
-            std::cout << "  " << "\033[1;34m " << "+2" << "\033[0m";
+            std::cout << " " << "\033[1;34m " << "+2" << "\033[0m";
             break;
 
             case Effects::reverse:
-            std::cout << "  " << "\033[1;34m " << "&" << "\033[0m";
+            std::cout << " " << "\033[1;34m " << "&" << "\033[0m";
             break;
 
             case Effects::skip:
-            std::cout << "  " << "\033[1;34m " << "/" << "\033[0m";
+            std::cout << " " << "\033[1;34m " << "/" << "\033[0m";
             break;
 
             case Effects::wild:
-            std::cout << "  " << "\033[1;34m " << "#" << "\033[0m";
+            std::cout << " " << "\033[1;34m " << "#" << "\033[0m";
             break;
 
             case Effects::wildDraw4:
-            std::cout << "  " << "\033[1;34m " << "+4" << "\033[0m";
+            std::cout << " " << "\033[1;34m " << "+4" << "\033[0m";
             break;
         };
         break;
@@ -347,11 +347,11 @@ void Game::printCard(Card &card) {
         case Colors::Black:
         switch (card_effect) {
             case Effects::wild:
-            std::cout << "  " << "\033[1;35m " << "#" << "\033[0m";
+            std::cout << " " << "\033[1;35m " << "#" << "\033[0m";
             break;
 
             case Effects::wildDraw4:
-            std::cout << "  " << "\033[1;35m " << "+4" << "\033[0m";
+            std::cout << " " << "\033[1;35m " << "+4" << "\033[0m";
             break;
 
         };
@@ -366,15 +366,14 @@ void Game::printTopCard() {
 }
 
 void Game::printCardsInHand() {
-    std::vector<Card> cards_of_current_player = current_turn.getCurrentPlayer()->getPlayerCards().getCards();
-    std::cout << "Cards of Player " << current_turn.getCurrentPlayer()->getPlayerValue() << ":";
-    for (Card &card_in_hand : cards_of_current_player) {
+    std::vector<Card> cards_of_real_player = players[0]->getPlayerCards().getCards();
+    for (Card &card_in_hand : cards_of_real_player) {
         printCard(card_in_hand);
     }
-    std::cout << std::endl;
 }
 
 void Game::printGameTable() {
+    std::cout << "\33[2J";
     int num_of_players = players.size();
     std::string name_of_bot_1 = "";
     std::string name_of_bot_2 = "";
@@ -403,6 +402,8 @@ void Game::printGameTable() {
         break;
     }
     std::string player_name = players[0]->getPlayerName();
+    int player_name_length = player_name.length();
+    int spaces_to_add_for_name = player_name_length / 2;
     std::vector<Card> cards_of_real_player = players[0]->getPlayerCards().getCards();
     int spaces_to_add = cards_of_real_player.size();
     /* oberer bot */
@@ -418,7 +419,10 @@ void Game::printGameTable() {
     std::cout << "\n";
     std::cout << "\n";
     std::cout << "\n";
-    std::cout << std::setw(29) << player_name;
+    std::cout << std::setw(25+spaces_to_add_for_name) << player_name << std::endl;
+    std::cout << std::setw(15);
+    printCardsInHand();
+    std::cout << "\n\nAction: ";
 }
 
 std::string Game::getInput() {
