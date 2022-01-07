@@ -28,4 +28,5 @@ class Game {
         std::string getInput();
         Colors colorChoice(int playerId);
         std::string parseEffect(Effects effect);
+        void printUnoPrompt(int player_value);
 };
