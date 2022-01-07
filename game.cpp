@@ -4,8 +4,8 @@ Game::Game() {
     card_stack = CardStack();
     RealPlayer *real_player = new RealPlayer(0);
     Bot *bot_player = new Bot(1);
-    //Bot *bot_player2 = new Bot(2);
-    //Bot *bot_player3 = new Bot(3);
+    Bot *bot_player2 = new Bot(2);
+    Bot *bot_player3 = new Bot(3);
     //Bot *bot_player4 = new Bot(4);
     //Bot *bot_player5 = new Bot(5);
     //Bot *bot_player6 = new Bot(6);
@@ -19,8 +19,8 @@ Game::Game() {
 
     this->players.push_back(real_player);
     this->players.push_back(bot_player);
-    //this->players.push_back(bot_player2);
-    //this->players.push_back(bot_player3);
+    this->players.push_back(bot_player2);
+    this->players.push_back(bot_player3);
     //this->players.push_back(bot_player4);
     //this->players.push_back(bot_player5);
     //this->players.push_back(bot_player6);
