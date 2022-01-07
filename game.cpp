@@ -2,35 +2,35 @@
 
 Game::Game() {
     card_stack = CardStack();
-    RealPlayer *real_player = new RealPlayer(0);
-    Bot *bot_player = new Bot(1);
-    Bot *bot_player2 = new Bot(2);
-    Bot *bot_player3 = new Bot(3);
-    Bot *bot_player4 = new Bot(4);
-    Bot *bot_player5 = new Bot(5);
-    Bot *bot_player6 = new Bot(6);
-    Bot *bot_player7 = new Bot(7);
-    Bot *bot_player8 = new Bot(8);
-    Bot *bot_player9 = new Bot(9);
-    Bot *bot_player10 = new Bot(10);
-    Bot *bot_player11 = new Bot(11);
-    Bot *bot_player12 = new Bot(12);
-    Bot *bot_player13 = new Bot(13);
+    RealPlayer *real_player = new RealPlayer(0, "Player");
+    Bot *bot_player = new Bot(1, "BOT Alex");
+    Bot *bot_player2 = new Bot(2, "BOT Jeff");
+    Bot *bot_player3 = new Bot(3, "BOT Carl");
+    // Bot *bot_player4 = new Bot(4);
+    // Bot *bot_player5 = new Bot(5);
+    // Bot *bot_player6 = new Bot(6);
+    // Bot *bot_player7 = new Bot(7);
+    // Bot *bot_player8 = new Bot(8);
+    // Bot *bot_player9 = new Bot(9);
+    // Bot *bot_player10 = new Bot(10);
+    // Bot *bot_player11 = new Bot(11);
+    // Bot *bot_player12 = new Bot(12);
+    // Bot *bot_player13 = new Bot(13);
 
     this->players.push_back(real_player);
     this->players.push_back(bot_player);
     this->players.push_back(bot_player2);
     this->players.push_back(bot_player3);
-    this->players.push_back(bot_player4);
-    this->players.push_back(bot_player5);
-    this->players.push_back(bot_player6);
-    this->players.push_back(bot_player7);
-    this->players.push_back(bot_player8);
-    this->players.push_back(bot_player9);
-    this->players.push_back(bot_player10);
-    this->players.push_back(bot_player11);
-    this->players.push_back(bot_player12);
-    this->players.push_back(bot_player13);
+    // this->players.push_back(bot_player4);
+    // this->players.push_back(bot_player5);
+    // this->players.push_back(bot_player6);
+    // this->players.push_back(bot_player7);
+    // this->players.push_back(bot_player8);
+    // this->players.push_back(bot_player9);
+    // this->players.push_back(bot_player10);
+    // this->players.push_back(bot_player11);
+    // this->players.push_back(bot_player12);
+    // this->players.push_back(bot_player13);
 
 
     played_cards = PlayedCards();
@@ -76,8 +76,9 @@ void Game::runGame() {
         {
             effectNotPending = true;
         }
-        printTopCard();
-        printCardsInHand(); // MUSS SPAETER WEG
+        printGameTable();
+        //printTopCard();
+        //printCardsInHand(); // MUSS SPAETER WEG
         /* sets all playable fields of all the cards player can play to true */
         int num_of_cards_to_play;
         num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card, effectNotPending);
@@ -359,9 +360,9 @@ void Game::printCard(Card &card) {
 }
 
 void Game::printTopCard() {
-    std::cout << "\n\nCurrent Top Card: ";
+    // std::cout << "\n\nCurrent Top Card: ";
     printCard(current_turn.getTopCard());
-    std::cout << std::endl;
+    // std::cout << std::endl;
 }
 
 void Game::printCardsInHand() {
@@ -371,6 +372,53 @@ void Game::printCardsInHand() {
         printCard(card_in_hand);
     }
     std::cout << std::endl;
+}
+
+void Game::printGameTable() {
+    int num_of_players = players.size();
+    std::string name_of_bot_1 = "";
+    std::string name_of_bot_2 = "";
+    std::string name_of_bot_3 = "";
+    std::string num_of_cards_bot_1 = "";
+    std::string num_of_cards_bot_2 = "";
+    std::string num_of_cards_bot_3 = "";
+    switch(num_of_players) {
+      case 2:
+        name_of_bot_1 = players[1]->getPlayerName();
+        num_of_cards_bot_1 = std::to_string(players[1]->getPlayerCards().getCards().size());
+        break;
+      case 3:
+        name_of_bot_1 = players[1]->getPlayerName();
+        num_of_cards_bot_1 = std::to_string(players[1]->getPlayerCards().getCards().size());
+        name_of_bot_2 = players[2]->getPlayerName();
+        num_of_cards_bot_2 = std::to_string(players[2]->getPlayerCards().getCards().size());
+        break;
+      case 4:
+        name_of_bot_1 = players[1]->getPlayerName();
+        num_of_cards_bot_1 = std::to_string(players[1]->getPlayerCards().getCards().size());
+        name_of_bot_2 = players[2]->getPlayerName();
+        num_of_cards_bot_2 = std::to_string(players[2]->getPlayerCards().getCards().size());
+        name_of_bot_3 = players[3]->getPlayerName();
+        num_of_cards_bot_3 = std::to_string(players[3]->getPlayerCards().getCards().size());
+        break;
+    }
+    std::string player_name = players[0]->getPlayerName();
+    std::vector<Card> cards_of_real_player = players[0]->getPlayerCards().getCards();
+    int spaces_to_add = cards_of_real_player.size();
+    /* oberer bot */
+    std::cout << std::setw(29) << name_of_bot_2 << std::setw(29) << "#" << std::endl;
+    std::cout << std::setw(26) << num_of_cards_bot_2 << std::setw(25) << "#" << std::endl;
+    std::cout << "\n";
+    std::cout << "\n";
+    /* linker und rechter bot + oberste karte */
+    std::cout << std::setw(13) << name_of_bot_1 << std::setw(32) << name_of_bot_3 << std::endl;
+    std::cout << std::setw(10) << num_of_cards_bot_1 << std::setw(14);
+    printTopCard();
+    std::cout << std::setw(16) << num_of_cards_bot_3 << std::endl;
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << std::setw(29) << player_name;
 }
 
 std::string Game::getInput() {

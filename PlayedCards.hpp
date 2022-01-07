@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "card.hpp"
 #include "CardStack.hpp"
 
 class PlayedCards {

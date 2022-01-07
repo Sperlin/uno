@@ -1,7 +1,9 @@
 #pragma once
 #include <chrono>
 #include <iostream>
+#include <iomanip>
 #include <regex>
+#include <string>
 #include <unistd.h>
 #include "turn.hpp"
 #include "CardStack.hpp"
@@ -25,6 +27,7 @@ class Game {
         void printCard(Card &card);
         void printTopCard();
         void printCardsInHand();
+        void printGameTable();
         std::string getInput();
         Colors colorChoice(int playerId);
         std::string parseEffect(Effects effect);

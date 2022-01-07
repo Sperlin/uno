@@ -18,16 +18,18 @@ void split(const std::string& s, char c, std::vector<std::string>& v) {
 
 Player::Player() {}
 
-Player::Player(int value) {}
+Player::Player(int value, std::string name) {}
 
-RealPlayer::RealPlayer(int value) {
+RealPlayer::RealPlayer(int value, std::string name) {
     PlayerCards player_cards = PlayerCards();
     player_value = value;
+    player_name = name;
 }
 
-Bot::Bot(int value) {
+Bot::Bot(int value, std::string name) {
     PlayerCards player_cards = PlayerCards();
     player_value = value;
+    player_name = name;
 }
 
 PlayerCards &Player::getPlayerCards() {
@@ -36,6 +38,10 @@ PlayerCards &Player::getPlayerCards() {
 
 int &Player::getPlayerValue() {
     return player_value;
+}
+
+std::string &Player::getPlayerName() {
+    return player_name;
 }
 
 Card *Player::play(std::string choice, Card &top_card) {
