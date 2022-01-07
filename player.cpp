@@ -96,8 +96,14 @@ int Player::possible_cards(Card &top_card, bool cardPlayed) {
         Effects effect_card_hand = card.getEffect();
         Effects effect_top_card = top_card.getEffect();
         
-        if(effect_top_card == Effects::noEffect || effect_card_hand == effect_top_card || cardPlayed || 
-        effect_top_card == Effects::wildDraw4 && effect_card_hand == Effects::draw2 || effect_top_card == Effects::draw2 && effect_card_hand == Effects::wildDraw4){
+        if(effect_top_card == Effects::wildDraw4 && effect_card_hand == Effects::draw2 || effect_top_card == Effects::draw2 && effect_card_hand == Effects::wildDraw4){
+            if(color_card_hand == Colors::black || color_card_hand == color_top_card){
+                card.setPlayable(true);
+                num_of_playable_cards++;
+            }
+        }
+
+        if(effect_top_card == Effects::noEffect || effect_card_hand == effect_top_card || cardPlayed){
             if (color_card_hand == Colors::Black || color_card_hand == color_top_card || value_card_hand == value_top_card) {
                 card.setPlayable(true);
                 num_of_playable_cards++;
