@@ -60,7 +60,7 @@ void Game::startGame() {
 void Game::runGame() {
     bool game_running = true;
     while (game_running) {
-        
+
         if(card_stack.isEmpty()){
             std::cout << "\n\nTHE STACK IS EMPTY, SHUFFLING" << std::endl;
             card_stack = played_cards.copy(played_cards.getPlayedCards());
@@ -175,12 +175,17 @@ void Game::runGame() {
         if(card_to_play->getEffect() == Effects::reverse){
             this->current_turn.changeDirection(); 
         }
+
         //------------------------------------------------------------------------
         /* save the card in played_cards and delete it from hand */
         played_cards.save(*card_to_play);
         top_card = played_cards.top();        
         this->current_turn.getCurrentPlayer()->erase_played_card(card_to_play);
         //printCardsInHand(); //FOR TESTING PURPOSES
+
+        if(this->current_turn.getCurrentPlayer()->getPlayerCards().getCards().size() == 1){
+            printUnoPrompt(this->current_turn.getCurrentPlayer()->getPlayerValue()); //this->current_turn.getCurrentPlayer().getPlayerValue()
+        }
 
         Effects effect_for_next_turn = top_card.getEffect(); //change
 
@@ -508,4 +513,18 @@ Colors Game::colorChoice(int playerId){
     }
     std::cout << input_from_player << std::endl;
     return Colors::Blue; //not possible 
+}
+
+void Game::printUnoPrompt(int player_value){
+    if(player_value == 0){
+        std::string input_from_player;
+        bool correct_input = false;
+        std::regex pattern_for_choice("(uno|UNO)");
+        do {
+            std::getline(std::cin, input_from_player);
+            correct_input = std::regex_match(input_from_player, pattern_for_choice);
+        }
+        while(!correct_input);
+    }
+    std::cout<< "UNO" << std::endl;
 }
