@@ -169,7 +169,7 @@ void Game::runGame() {
         //printCardsInHand(); //FOR TESTING PURPOSES
 
         if(this->current_turn.getCurrentPlayer()->getPlayerCards().getCards().size() == 1){
-            printUnoPrompt(this->current_turn.getCurrentPlayer().getPlayerValue());
+            printUnoPrompt(this->current_turn.getCurrentPlayer()->getPlayerValue());
         }
 
         Effects effect_for_next_turn = top_card.getEffect(); //change
@@ -453,5 +453,7 @@ void Game::printUnoPrompt(int player_value){
         }
         while(!correct_input);
     }
-    std::cout<< "UNO" << std::endl;
+    //else{
+        std::cout<< "UNO" << std::endl;
+    //}
 }
