@@ -453,5 +453,7 @@ void Game::printUnoPrompt(int player_value){
         }
         while(!correct_input);
     }
-    std::cout<< "UNO" << std::endl;
+    //else{
+        std::cout<< "UNO" << std::endl;
+    //}
 }
