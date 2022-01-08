@@ -516,8 +516,9 @@ Colors Game::colorChoice(int playerId){
 }
 
 void Game::printUnoPrompt(int player_value){
+    std::string input_from_player;
     if(player_value == 0){
-        std::string input_from_player;
+        std::cout << "\n\n\33[2K\rPrint uno: ";
         bool correct_input = false;
         std::regex pattern_for_choice("(uno|UNO)");
         do {
@@ -527,4 +528,5 @@ void Game::printUnoPrompt(int player_value){
         while(!correct_input);
     }
     std::cout<< "UNO" << std::endl;
+    sleep(3);
 }

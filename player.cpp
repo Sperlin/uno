@@ -101,10 +101,11 @@ int Player::possible_cards(Card &top_card, bool cardPlayed) {
         int value_top_card = top_card.getValue();
         Effects effect_card_hand = card.getEffect();
         Effects effect_top_card = top_card.getEffect();
-        
-        if(effect_top_card == Effects::wildDraw4 && effect_card_hand == Effects::draw2 || effect_top_card == Effects::draw2 && effect_card_hand == Effects::wildDraw4){
-            card.setPlayable(true);
-            num_of_playable_cards++;
+        if(!cardPlayed){
+            if(effect_top_card == Effects::wildDraw4 && effect_card_hand == Effects::draw2 || effect_top_card == Effects::draw2 && effect_card_hand == Effects::wildDraw4){
+                card.setPlayable(true);
+                num_of_playable_cards++;
+            }
         }
 
         if(effect_top_card == Effects::noEffect || effect_card_hand == effect_top_card || cardPlayed){
