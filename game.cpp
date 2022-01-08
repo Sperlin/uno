@@ -88,6 +88,7 @@ void Game::runGame() {
         /* sets all playable fields of all the cards player can play to true */
         int num_of_cards_to_play;
         num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card, effectNotPending);
+        int value_of_current_player = this->current_turn.getCurrentPlayer()->getPlayerValue();
 
         if (num_of_cards_to_play == 0) {
             Effects top_card_effect = top_card.getEffect();
@@ -101,8 +102,11 @@ void Game::runGame() {
 
                 this->current_turn.getCurrentPlayer()->draw(this->card_stack, current_turn.getCardsToAdd());
                 
-                
-                std::cout << "\n\n" << current_turn.getCurrentPlayer()->getPlayerName() << " draws " << current_turn.getCardsToAdd() << " cards!" << std::endl;
+                if (value_of_current_player == 0) {
+                    std::cout << "\n\nYou have to draw " << current_turn.getCardsToAdd() << " cards!" << std::endl;
+                } else {
+                    std::cout << "\n\n" << current_turn.getCurrentPlayer()->getPlayerName() << " has to draw " << current_turn.getCardsToAdd() << " cards!" << std::endl;
+                }
                 sleep(4);
                 printGameTable();
                 current_turn.setCardsToAdd(0);
@@ -112,7 +116,11 @@ void Game::runGame() {
                 continue;
                 }
                 else if(top_card_effect == Effects::skip){
-                    std::cout << "\n\n" << current_turn.getCurrentPlayer()->getPlayerName() << " skips their turn!" << std::endl;
+                    if (value_of_current_player == 0) {
+                        std::cout << "\n\nYour turn gets skipped!" << std::endl;
+                    } else {
+                        std::cout << "\n\n" << current_turn.getCurrentPlayer()->getPlayerName() << "'s turn gets skipped!" << std::endl;
+                    }
                     sleep(4);
                     nextTurn(no_effect); //change effect to nothing
                     continue;
@@ -121,7 +129,11 @@ void Game::runGame() {
             else{
                 /* if the player has no cards to play, draw one */
                 this->current_turn.getCurrentPlayer()->draw(this->card_stack, 1);
-                std::cout << "\n\n" << current_turn.getCurrentPlayer()->getPlayerName() << " draws a card!" << std::endl;
+                if (value_of_current_player == 0) {
+                    std::cout << "\n\nYou have to draw a card!" << std::endl;
+                } else {
+                    std::cout << "\n\n" << current_turn.getCurrentPlayer()->getPlayerName() << " has to draw a card!" << std::endl;
+                }
                 sleep(4);
 
                 num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card, effectNotPending);
@@ -129,7 +141,11 @@ void Game::runGame() {
                     /* if the player still has no cards to play, next turn begins*/
                     //sleep(3);
                     printGameTable();
-                    std::cout << "\n\n\33[2K" << current_turn.getCurrentPlayer()->getPlayerName() << " has no cards to play!" << std::endl;
+                    if (value_of_current_player == 0) {
+                        std::cout << "\n\n\33[2KYou have no cards to play!" << std::endl;
+                    } else {
+                        std::cout << "\n\n\33[2K" << current_turn.getCurrentPlayer()->getPlayerName() << " has no cards to play!" << std::endl;
+                    }
                     sleep(4);
                     nextTurn(no_effect);
                     continue;
@@ -139,7 +155,7 @@ void Game::runGame() {
             }
         }
 
-        int value_of_current_player = this->current_turn.getCurrentPlayer()->getPlayerValue();
+        
         std::string input_from_player;
         Card *card_to_play;
         /* check whether it is the real players turn or a bots turn */
@@ -424,19 +440,28 @@ void Game::printGameTable() {
     int player_name_length = player_name.length();
     int spaces_to_add_for_name = player_name_length / 2;
     int num_cards_of_real_player = players[0]->getPlayerCards().getCards().size();
-    int spaces_to_add = (7 - num_cards_of_real_player) * 2;
+    int test = 7 - num_cards_of_real_player;
+    int spaces_to_add;
+    if (test == 0) {
+        spaces_to_add = 0;
+    } else if (test > 0) {
+        spaces_to_add = (2 * (test - 1)) + 1;
+    } else if (test < 0) {
+        spaces_to_add = (2*test);
+    }
+    
     /* oberer bot */
-    std::cout << "\n" << std::setw(29) << name_of_bot_2 << std::setw(29) << std::endl;
-    std::cout << std::setw(26) << num_of_cards_bot_2 << std::setw(25) << std::endl;
-    std::cout << "\n";
-    std::cout << "\n";
+    std::cout << "\n" << std::setw(29) << name_of_bot_2 << std::setw(91) << "# During your turn you can input the card you want to play" << std::endl;
+    std::cout << std::setw(26) << num_of_cards_bot_2 << std::endl;
+    std::cout << std::setw(108) << "# Input format: 'color 0-9|skip|reverse|draw2'";
+    std::cout << "\n" << std::setw(127) << "# To play a Wild card or a Draw4 Card, type in 'black wild|draw4'";
     /* linker und rechter bot + oberste karte */
-    std::cout << std::setw(13) << name_of_bot_1 << std::setw(32) << name_of_bot_3 << std::endl;
-    std::cout << std::setw(10) << num_of_cards_bot_1 << std::setw(14);
+    std::cout << "\n" << std::setw(13) << name_of_bot_1 << std::setw(32) << name_of_bot_3 << std::setw(88) << "# Don't forget to type uno after you have played your second last card!";
+    std::cout << "\n" << std::setw(10) << num_of_cards_bot_1 << std::setw(14);
     printTopCard();
-    std::cout << std::setw(16) << num_of_cards_bot_3 << std::endl;
-    std::cout << "\n";
-    std::cout << "\n";
+    std::cout << std::setw(16) << num_of_cards_bot_3;
+    std::cout << "\n" << std::setw(86) << "# Special effect cards: ";
+    std::cout << "\n" << std::setw(119) << "# Reverse (&), Skip (/), Draw2 (+2), Draw4 (+4), Wild (#)";
     std::cout << "\n";
     std::cout << std::setw(25+spaces_to_add_for_name) << player_name << std::endl;
     std::cout << std::setw(15+spaces_to_add);
@@ -447,7 +472,7 @@ void Game::printGameTable() {
 
 std::string Game::getInput() {
     std::string input_from_player;
-    bool correct_input = false;
+    bool correct_input = true;
     bool input_occured = true;
     std::regex pattern_for_choice("((blue|red|yellow|green)\\s{1}([0-9]|draw2|reverse|skip))|black\\s{1}(wild|draw4)");
     do {
@@ -475,7 +500,8 @@ std::string Game::getInput() {
 Colors Game::colorChoice(int playerId){
     std::string input_from_player;
     if(playerId == 0){
-        std::cout << "\n\n\33[2K\rChoose a color: ";
+        printGameTable();
+        std::cout << "\33[2K\n\nChoose a color: ";
         bool correct_input = false;
         std::regex pattern_for_choice("(blue|red|yellow|green)");
 
