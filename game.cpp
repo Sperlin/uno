@@ -407,7 +407,7 @@ void Game::printCardsInHand() {
 }
 
 void Game::printGameTable() {
-    std::cout << "\33[2J";
+    std::cout << "\x1B[2J\x1B[H";
     int num_of_players = players.size();
     std::string name_of_bot_1 = "";
     std::string name_of_bot_2 = "";

@@ -4,7 +4,7 @@
 void show_rules() {
     bool rules = true;
     while (rules) {
-        std::cout << "\33[2J";
+        std::cout << "\x1B[2J\x1B[H";
         std::cout << "Welcome to the game of UNO!" << std::endl
         << "Here is how this game works: " << std::endl
         << "You and 1 to 3 bots sit around a table with an UNO card stack containing a total of 108 cards." << std::endl
@@ -40,7 +40,7 @@ void show_rules() {
 int main() {
     bool menu = true;
     while (menu) {
-        std::cout << "\33[2J";
+        std::cout << "\x1B[2J\x1B[H";
         std::cout << "Welcome to the main menu!\n" << std::endl
     << "\t 1) Start a new game!" << std::endl 
     << "\t 2) Check the rules" << std::endl
