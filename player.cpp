@@ -45,13 +45,11 @@ std::string &Player::getPlayerName() {
 }
 
 Card *Player::play(std::string choice, Card &top_card) {
-    std::cout << "Mistakes were made" << std::endl;
     return nullptr;
 };
 
 Card *RealPlayer::play(std::string choice, Card &top_card) {
     /* return and "play" chosen card */
-    //std::cout << "Hopefully you can read this" << std::endl;
     std::vector<std::string> input_elements;
     /* split input in color and value */
     split(choice, ' ', input_elements);
@@ -61,11 +59,8 @@ Card *RealPlayer::play(std::string choice, Card &top_card) {
     Card *played_card = nullptr;
     for (Card &card : this->player_cards.getCards()) {
         if (color_of_input_card == card.getColor() && value_of_input_card == card.getValue()) {
-            //std::cout << card.getPlayable() << std::endl; // FOR TESTING PURPOSES
             if (card.getPlayable()) {
                 played_card = &card;
-                //std::cout << played_card->getValue() << std::endl; // FOR TESTING PURPOSES
-                //std::cout << "test";
                 break;
             }
         }
@@ -75,14 +70,10 @@ Card *RealPlayer::play(std::string choice, Card &top_card) {
 
 Card *Bot::play(std::string choice, Card &top_card) {
     /* return and "play" first playable card */
-    //possible_cards(top_card);
     Card *played_card = nullptr;
     for (Card &card : this->player_cards.getCards()) {
-        //std::cout << card.getPlayable() << std::endl;
         if (card.getPlayable()) {
             played_card = &card;
-            //std::cout << played_card->getValue() << std::endl;
-            //std::cout << "test";
             break;
         }
     }

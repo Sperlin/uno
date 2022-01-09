@@ -1,38 +1,44 @@
 #include "game.hpp"
 
 Game::Game() {
+
+}
+
+Game::Game(std::string player_name, int num_of_bots) {
     card_stack = CardStack();
-    RealPlayer *real_player = new RealPlayer(0, "Player");
-    Bot *bot_player = new Bot(1, "BOT Alex");
-    Bot *bot_player2 = new Bot(2, "BOT Jeff");
-    Bot *bot_player3 = new Bot(3, "BOT Carl");
-    // Bot *bot_player4 = new Bot(4);
-    // Bot *bot_player5 = new Bot(5);
-    // Bot *bot_player6 = new Bot(6);
-    // Bot *bot_player7 = new Bot(7);
-    // Bot *bot_player8 = new Bot(8);
-    // Bot *bot_player9 = new Bot(9);
-    // Bot *bot_player10 = new Bot(10);
-    // Bot *bot_player11 = new Bot(11);
-    // Bot *bot_player12 = new Bot(12);
-    // Bot *bot_player13 = new Bot(13);
-
+    RealPlayer *real_player = new RealPlayer(0, player_name);
     this->players.push_back(real_player);
-    this->players.push_back(bot_player);
-    this->players.push_back(bot_player2);
-    this->players.push_back(bot_player3);
-    // this->players.push_back(bot_player4);
-    // this->players.push_back(bot_player5);
-    // this->players.push_back(bot_player6);
-    // this->players.push_back(bot_player7);
-    // this->players.push_back(bot_player8);
-    // this->players.push_back(bot_player9);
-    // this->players.push_back(bot_player10);
-    // this->players.push_back(bot_player11);
-    // this->players.push_back(bot_player12);
-    // this->players.push_back(bot_player13);
-
-
+    Bot *bot_player1;
+    Bot *bot_player2;
+    Bot *bot_player3;
+    switch(num_of_bots) {
+        case 2:
+            bot_player1 = new Bot(1, "BOT Alex");
+            this->players.push_back(bot_player1);
+            break;
+        case 3:
+            bot_player1 = new Bot(1, "BOT Alex");
+            bot_player2 = new Bot(2, "BOT Jeff");
+            this->players.push_back(bot_player1);
+            this->players.push_back(bot_player2);
+            break;
+        case 4:
+            bot_player1 = new Bot(1, "BOT Alex");
+            bot_player2 = new Bot(2, "BOT Jeff");
+            bot_player3 = new Bot(3, "BOT Carl");
+            this->players.push_back(bot_player1);
+            this->players.push_back(bot_player2);
+            this->players.push_back(bot_player3);
+            break;
+        default:
+            bot_player1 = new Bot(1, "BOT Alex");
+            bot_player2 = new Bot(2, "BOT Jeff");
+            bot_player3 = new Bot(3, "BOT Carl");
+            this->players.push_back(bot_player1);
+            this->players.push_back(bot_player2);
+            this->players.push_back(bot_player3);
+            break;
+    }
     played_cards = PlayedCards();
 }
 
@@ -83,8 +89,6 @@ void Game::runGame() {
         }
         printGameTable();
         
-        //printTopCard();
-        //printCardsInHand(); // MUSS SPAETER WEG
         /* sets all playable fields of all the cards player can play to true */
         int num_of_cards_to_play;
         num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card, effectNotPending);
@@ -111,7 +115,6 @@ void Game::runGame() {
                 printGameTable();
                 current_turn.setCardsToAdd(0);
 
-                //sleep(3);
                 nextTurn(no_effect); //change effect to nothing
                 continue;
                 }
@@ -139,7 +142,6 @@ void Game::runGame() {
                 num_of_cards_to_play = this->current_turn.getCurrentPlayer()->possible_cards(top_card, effectNotPending);
                 if (num_of_cards_to_play == 0) {
                     /* if the player still has no cards to play, next turn begins*/
-                    //sleep(3);
                     printGameTable();
                     if (value_of_current_player == 0) {
                         std::cout << "\n\n\33[2KYou have no cards to play!" << std::endl;
@@ -161,7 +163,6 @@ void Game::runGame() {
         /* check whether it is the real players turn or a bots turn */
         if (value_of_current_player == 0) {
             /* if it is the real players turn */
-            //printCardsInHand(); //MUSS SPAETER HIERHIN, damit Karten von Bots nicht mehr gezeigt werden
             /* get card corresponding to input, loop as long as input is incorrect or does not correspond with a card in hand */
             do {
                 printGameTable();
@@ -197,10 +198,9 @@ void Game::runGame() {
         played_cards.save(*card_to_play);
         top_card = played_cards.top();        
         this->current_turn.getCurrentPlayer()->erase_played_card(card_to_play);
-        //printCardsInHand(); //FOR TESTING PURPOSES
 
         if(this->current_turn.getCurrentPlayer()->getPlayerCards().getCards().size() == 1){
-            printUnoPrompt(this->current_turn.getCurrentPlayer()->getPlayerValue()); //this->current_turn.getCurrentPlayer().getPlayerValue()
+            printUnoPrompt(this->current_turn.getCurrentPlayer()->getPlayerValue()); 
         }
 
         Effects effect_for_next_turn = top_card.getEffect(); //change
@@ -237,7 +237,9 @@ bool Game::nextTurn(Effects &effect_for_next_turn) {
 }
 
 void Game::win(Turn &current_turn) {
+    current_turn.setTopCard(played_cards.top());
     Player* winner = current_turn.getCurrentPlayer();
+    printGameTable();
     std::cout << "\n\n" << winner->getPlayerName() << " has won the Game!" << std::endl;
 }
 
@@ -395,9 +397,7 @@ void Game::printCard(Card &card) {
 }
 
 void Game::printTopCard() {
-    // std::cout << "\n\nCurrent Top Card: ";
     printCard(current_turn.getTopCard());
-    // std::cout << std::endl;
 }
 
 void Game::printCardsInHand() {
@@ -445,7 +445,7 @@ void Game::printGameTable() {
     if (test == 0) {
         spaces_to_add = 0;
     } else if (test > 0) {
-        spaces_to_add = (2 * (test - 1)) + 1;
+        spaces_to_add = (2 * (test - 1) + 1);
     } else if (test < 0) {
         spaces_to_add = (2*test);
     }
@@ -461,13 +461,12 @@ void Game::printGameTable() {
     printTopCard();
     std::cout << std::setw(16) << num_of_cards_bot_3;
     std::cout << "\n" << std::setw(86) << "# Special effect cards: ";
-    std::cout << "\n" << std::setw(119) << "# Reverse (&), Skip (/), Draw2 (+2), Draw4 (+4), Wild (#)";
+    std::cout << "\n" << std::setw(119) << "# Reverse (&), Skip (/), Draw2 (+2), Draw4 (+4), Wild (#)" << std::endl;
     std::cout << "\n";
-    std::cout << std::setw(25+spaces_to_add_for_name) << player_name << std::endl;
+    std::cout << std::setw(26+spaces_to_add_for_name) << player_name << std::endl;
     std::cout << std::setw(15+spaces_to_add);
     printCardsInHand();
     std::cout << std::endl;
-    //std::cout << "\n\nAction: ";
 }
 
 std::string Game::getInput() {
@@ -501,7 +500,7 @@ Colors Game::colorChoice(int playerId){
     std::string input_from_player;
     if(playerId == 0){
         printGameTable();
-        std::cout << "\33[2K\n\nChoose a color: ";
+        std::cout << "\33[2K\n\nChoose a color (type in blue or red or yellow or green): ";
         bool correct_input = false;
         std::regex pattern_for_choice("(blue|red|yellow|green)");
 

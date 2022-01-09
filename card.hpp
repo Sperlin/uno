@@ -5,7 +5,6 @@
 
 class Card
 {
-    //enum class Colors {Blue, Green, Red, Yellow};
     private:
         int value;
         int id;

@@ -17,6 +17,11 @@ Player* Turn::getCurrentPlayer() {
 Card &Turn::getTopCard() {
     return top_card;
 }
+
+void Turn::setTopCard(Card &card) {
+    top_card = card;
+}
+
 Card Turn::changeTopCardEffect(Effects effect){
     this->top_card.setEffect(effect);
     return this->top_card;

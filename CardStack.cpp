@@ -92,10 +92,3 @@ void CardStack::addFourCardsToStack(int cardValue, int cardsCount, Effects effec
     cards.push_back(Card(cardValue, cardsCount+2, Colors::Red, effect));
     cards.push_back(Card(cardValue, cardsCount+3, Colors::Yellow, effect));
 }
-
-void CardStack::printCards() {
-    std::cout << this->cards.size() << std::endl;
-    for (Card card : this->cards) {
-        std::cout << card.getId() << std::endl;
-    }
-}

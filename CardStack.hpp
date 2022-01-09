@@ -2,7 +2,6 @@
 #include <vector>
 #include <algorithm>
 #include <random>
-#include <iostream>
 #include "card.hpp"
 
 
@@ -18,6 +17,5 @@ class CardStack{
         void setCardStack();
         void push_back(Card card);
         void addFourCardsToStack(int cardsCount, int counter, Effects effect);
-        void printCards(); // FOR TESTING PURPOSES
         int getCardsCount();
 };
