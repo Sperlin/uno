@@ -28,11 +28,11 @@ void show_rules() {
         std::cin >> input;
         switch(input) {
             case 0:
-            rules = false;
-            break;
+                rules = false;
+                break;
             default:
-            rules = true;
-            break;
+                rules = true;
+                break;
         }
     }   
 }
@@ -71,9 +71,11 @@ int main() {
         case 2:
             show_rules();
             menu = true;
+            break;
         break;
         case 3:
             menu = false;
+            break;
         break;
         default:
             menu = true;
