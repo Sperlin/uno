@@ -8,38 +8,36 @@ Game::Game(std::string player_name, int num_of_bots) {
     card_stack = CardStack();
     RealPlayer *real_player = new RealPlayer(0, player_name);
     this->players.push_back(real_player);
-    Bot *bot_player1;
-    Bot *bot_player2;
-    Bot *bot_player3;
+    Bot* bot_player1 = new Bot(1, "BOT Alex");
+    Bot* bot_player2 = new Bot(2, "BOT Jeff");
+    Bot* bot_player3 = new Bot(3, "BOT Carl");
     switch(num_of_bots) {
         case 1:
-            bot_player1 = new Bot(1, "BOT Alex");
             this->players.push_back(bot_player1);
             break;
         case 2:
-            bot_player1 = new Bot(1, "BOT Alex");
-            bot_player2 = new Bot(2, "BOT Jeff");
             this->players.push_back(bot_player1);
             this->players.push_back(bot_player2);
             break;
         case 3:
-            bot_player1 = new Bot(1, "BOT Alex");
-            bot_player2 = new Bot(2, "BOT Jeff");
-            bot_player3 = new Bot(3, "BOT Carl");
             this->players.push_back(bot_player1);
             this->players.push_back(bot_player2);
             this->players.push_back(bot_player3);
             break;
         default:
-            bot_player1 = new Bot(1, "BOT Alex");
-            bot_player2 = new Bot(2, "BOT Jeff");
-            bot_player3 = new Bot(3, "BOT Carl");
             this->players.push_back(bot_player1);
             this->players.push_back(bot_player2);
             this->players.push_back(bot_player3);
             break;
     }
     played_cards = PlayedCards();
+}
+
+Game::~Game() {
+    for (Player* player : players) {
+        delete player;
+    }
+    
 }
 
 void Game::startGame() {

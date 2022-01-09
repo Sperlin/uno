@@ -19,6 +19,7 @@ class Game {
     public:
         Game();
         Game(std::string player_name, int num_of_bots);
+        ~Game();
         void startGame();
         void runGame();
         bool nextTurn(Effects &effect_for_next_turn);
