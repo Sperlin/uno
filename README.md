@@ -6,11 +6,11 @@
 ### Wie wird das Spiel gestartet? 
 In dem main Branch auf GitHub befindet sich die aktuelle Version des Spiels.   
 Bauen mithilfe von Makefile: `make`   
-Starten: `./main`  
+Starten: `./uno`  
 ### Wie wird das Spiel gespielt?
 1.	`Start a new game!` auswählen
 2.	Nickname für deinen Spieler erstellen
-3.	`Die Anzahl von Bots` auswählen (zwischen 2 und 4)
+3.	`Die Anzahl von Bots` auswählen (zwischen 1 und 3)
 4.	In dem Spieler-Zug muss man die passende Karte auswählen, indem man die Farbe und die Zahl der Karte getrennt eingibt (im Falle einer Effekte-Karte schreibt man keine Zahl, sondern den Effekt (z.B., `skip`) hin), die `wild` Karten haben schwarze Farbe.
 *	Wenn man keine Karte spielen kann, wird automatisch eine Karte gezogen
 *	Wenn man 2 Karten in der Hand hat, und eine gespielt wird, muss in dem gleichen Zug zusätzlich noch `UNO` geschrieben werden
