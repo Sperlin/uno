@@ -12,17 +12,17 @@ Game::Game(std::string player_name, int num_of_bots) {
     Bot *bot_player2;
     Bot *bot_player3;
     switch(num_of_bots) {
-        case 2:
+        case 1:
             bot_player1 = new Bot(1, "BOT Alex");
             this->players.push_back(bot_player1);
             break;
-        case 3:
+        case 2:
             bot_player1 = new Bot(1, "BOT Alex");
             bot_player2 = new Bot(2, "BOT Jeff");
             this->players.push_back(bot_player1);
             this->players.push_back(bot_player2);
             break;
-        case 4:
+        case 3:
             bot_player1 = new Bot(1, "BOT Alex");
             bot_player2 = new Bot(2, "BOT Jeff");
             bot_player3 = new Bot(3, "BOT Carl");
@@ -241,6 +241,7 @@ void Game::win(Turn &current_turn) {
     Player* winner = current_turn.getCurrentPlayer();
     printGameTable();
     std::cout << "\n\n" << winner->getPlayerName() << " has won the Game!" << std::endl;
+    sleep(5);
 }
 
 Player* Game::nextPlayer() {
@@ -440,15 +441,8 @@ void Game::printGameTable() {
     int player_name_length = player_name.length();
     int spaces_to_add_for_name = player_name_length / 2;
     int num_cards_of_real_player = players[0]->getPlayerCards().getCards().size();
-    int test = 7 - num_cards_of_real_player;
-    int spaces_to_add;
-    if (test == 0) {
-        spaces_to_add = 0;
-    } else if (test > 0) {
-        spaces_to_add = (2 * (test - 1) + 1);
-    } else if (test < 0) {
-        spaces_to_add = (2*test);
-    }
+    int length_hand = num_cards_of_real_player * 3;
+    int spaces = ceil(length_hand / 2);
     
     /* oberer bot */
     std::cout << "\n" << std::setw(29) << name_of_bot_2 << std::setw(91) << "# During your turn you can input the card you want to play" << std::endl;
@@ -464,7 +458,7 @@ void Game::printGameTable() {
     std::cout << "\n" << std::setw(119) << "# Reverse (&), Skip (/), Draw2 (+2), Draw4 (+4), Wild (#)" << std::endl;
     std::cout << "\n";
     std::cout << std::setw(26+spaces_to_add_for_name) << player_name << std::endl;
-    std::cout << std::setw(15+spaces_to_add);
+    std::cout << std::setw(25-spaces);
     printCardsInHand();
     std::cout << std::endl;
 }
@@ -541,8 +535,10 @@ Colors Game::colorChoice(int playerId){
 }
 
 void Game::printUnoPrompt(int player_value){
+    std::string input_from_player;
     if(player_value == 0){
-        std::string input_from_player;
+        printGameTable();
+        std::cout << "\n\n\33[2K\rType uno: ";
         bool correct_input = false;
         std::regex pattern_for_choice("(uno|UNO)");
         do {
@@ -551,5 +547,7 @@ void Game::printUnoPrompt(int player_value){
         }
         while(!correct_input);
     }
-    std::cout<< "UNO" << std::endl;
+    printGameTable();
+    std::cout<< "\n\n\33[2K\rUNO" << std::endl;
+    sleep(4);
 }

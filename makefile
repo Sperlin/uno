@@ -1,5 +1,5 @@
-main: Effect.o Colors.o card.o CardStack.o PlayerCards.o player.o PlayedCards.o turn.o game.o main.o
-	g++ -o main main.o game.o turn.o card.o CardStack.o Colors.o Effect.o player.o PlayerCards.o PlayedCards.o
+uno: Effect.o Colors.o card.o CardStack.o PlayerCards.o player.o PlayedCards.o turn.o game.o main.o
+	g++ -o uno main.o game.o turn.o card.o CardStack.o Colors.o Effect.o player.o PlayerCards.o PlayedCards.o
 
 Effect.o: Effect.cpp
 	g++ -c Effect.cpp
@@ -32,7 +32,7 @@ main.o: main.cpp
 	g++ -c main.cpp
 
 clean:
-	rm *.o main
+	rm *.o uno
 
 
 
