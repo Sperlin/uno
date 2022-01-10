@@ -26,7 +26,7 @@ siehe (www.uno-kartenspiel.de/spielregeln/)
  
 ## Hauptideen zur Implementierung
 
-*Zum besseren Verständnis des Programms, liegt in `Dokumente` auch ein Klassendiagramm (`Uno.drawio.pdf`) und der Projektvorschlag*
+*Zum besseren Verständnis des Programms, liegen in `Dokumente` auch ein Klassendiagramm (`Uno.drawio.pdf`) und der Projektvorschlag*
 
 Am Anfang wird ein *Game* Objekt erstellt. Dieses enthält alle wichtigen Daten zum Spiel, wie die Spieler, den aktuellen Zug, den aktuellen Effekt etc.. Außerdem werden darüber alle Eingaben und Ausgaben verarbeitet.
 
