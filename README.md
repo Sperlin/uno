@@ -4,7 +4,7 @@
  
 ## Anleitung zu dem Spiel
 ### Wie wird das Spiel gestartet? 
-In dem `UNO V1` Release auf GitHub befindet sich die aktuelle Version des Spiels.   
+In dem `main` branch auf GitHub befindet sich die aktuelle Version des Spiels.   
 Bauen mithilfe der Makefile: `make`   
 Starten mit: `./uno`  
 ### Wie wird das Spiel gespielt?
