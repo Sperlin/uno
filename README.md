@@ -36,3 +36,4 @@ Für jeden Spieler wird ein *Player* Objekt erstellt. Dabei wird zwischen *RealP
 
 Für das Kartenmanagement sind die Klassen *CardStack*, *PlayerCards* und *PlayedCards* zuständig. Hier werden in Vektoren die Karten mit ihren individuellen Farben, Werten und Effekten gespeichert. Dabei wurden für die Farben und Effekte Enumarations erstellt.
 
+*Bis auf die Nice-to-have Anforderungen und dem 2 Sekunden Zeitlimit für das Uno in die Kommandozeile schreiben, wurden alle Anforderungen, wie im Projektvorschlag dokumentiert, implementiert*
