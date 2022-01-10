@@ -24,9 +24,9 @@ siehe (www.uno-kartenspiel.de/spielregeln/)
 *	Strafen und Punktesysteme sind nicht implementiert
 *	Man darf nicht ziehen, wenn man mindestens eine Karte spielen kann       
  
-## Hauptideen
+## Hauptideen zur Implementierung
 
-*Zum besseren Verständnis des Programms, liegt in GitHub auch ein Klassendiagramm (`Uno.drawio.pdf`)*
+*Zum besseren Verständnis des Programms, liegt in `Dokumente` auch ein Klassendiagramm (`Uno.drawio.pdf`) und der Projektvorschlag*
 
 Am Anfang wird ein *Game* Objekt erstellt. Dieses enthält alle wichtigen Daten zum Spiel, wie die Spieler, den aktuellen Zug, den aktuellen Effekt etc.. Außerdem werden darüber alle Eingaben und Ausgaben verarbeitet.
 
@@ -35,5 +35,4 @@ Am Anfang wird ein *Game* Objekt erstellt. Dieses enthält alle wichtigen Daten 
 Für jeden Spieler wird ein *Player* Objekt erstellt. Dabei wird zwischen *RealPlayer* und *Bot* unterschieden. Hier ist die Spielerlogik implementiert, wie zum Beispiel die Funktion zum legen einer Karte. 
 
 Für das Kartenmanagement sind die Klassen *CardStack*, *PlayerCards* und *PlayedCards* zuständig. Hier werden in Vektoren die Karten mit ihren individuellen Farben, Werten und Effekten gespeichert. Dabei wurden für die Farben und Effekte Enumarations erstellt.
-
 
