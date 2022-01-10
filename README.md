@@ -4,9 +4,9 @@
  
 ## Anleitung zu dem Spiel
 ### Wie wird das Spiel gestartet? 
-In dem main Branch auf GitHub befindet sich die aktuelle Version des Spiels.   
-Bauen mithilfe von Makefile: `make`   
-Starten: `./uno`  
+In dem `UNO V1` Release auf GitHub befindet sich die aktuelle Version des Spiels.   
+Bauen mithilfe der Makefile: `make`   
+Starten mit: `./uno`  
 ### Wie wird das Spiel gespielt?
 1.	`Start a new game!` auswählen
 2.	Nickname für deinen Spieler erstellen
@@ -23,5 +23,17 @@ siehe (www.uno-kartenspiel.de/spielregeln/)
 *	Zudem darf jede `zieh zwei` Karte mit einer `zieh vier` Karte der gleichen Farbe gestapelt werden und umgekehrt 
 *	Strafen und Punktesysteme sind nicht implementiert
 *	Man darf nicht ziehen, wenn man mindestens eine Karte spielen kann       
-  
+ 
+## Hauptideen
+
 *Zum besseren Verständnis des Programms, liegt in GitHub auch ein Klassendiagramm (`Uno.drawio.pdf`)*
+
+Am Anfang wird ein *Game* Objekt erstellt. Dieses enthält alle wichtigen Daten zum Spiel, wie die Spieler, den aktuellen Zug, den aktuellen Effekt etc.. Außerdem werden darüber alle Eingaben und Ausgaben verarbeitet.
+
+Über *Turn* Objekte werden die Informationen zu den Zügen gespeichert. Dabei wird nach jedem Zug ein neues *Turn* Objekt erstellt, das den aktuellen Spieler und die oberste Karte enthält.
+
+Für jeden Spieler wird ein *Player* Objekt erstellt. Dabei wird zwischen *RealPlayer* und *Bot* unterschieden. Hier ist die Spielerlogik implementiert, wie zum Beispiel die Funktion zum legen einer Karte. 
+
+Für das Kartenmanagement sind die Klassen *CardStack*, *PlayerCards* und *PlayedCards* zuständig. Hier werden in Vektoren die Karten mit ihren individuellen Farben, Werten und Effekten gespeichert. Dabei wurden für die Farben und Effekte Enumarations erstellt.
+
+
